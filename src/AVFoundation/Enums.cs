@@ -307,11 +307,17 @@ namespace AVFoundation {
 	[Native]
 	// NSUInteger - AVAsset.h
 	public enum AVAssetReferenceRestrictions : ulong {
+		/// <summary>There are no restrictions on references to media data.</summary>
 		ForbidNone = 0,
+		/// <summary>Remote assets cannot require a local media resource (e.g., an HTTP URL cannot require a client-side file).</summary>
 		ForbidRemoteReferenceToLocal = (1 << 0),
+		/// <summary>Local asset references to remote media are not allowed.</summary>
 		ForbidLocalReferenceToRemote = (1 << 1),
+		/// <summary>Remote asset references to a different site are not allowed.</summary>
 		ForbidCrossSiteReference = (1 << 2),
+		/// <summary>Local asset references to local media outside the container are not allowed.</summary>
 		ForbidLocalReferenceToLocal = (1 << 3),
+		/// <summary>Only references to media data stored within the asset's container are allowed.</summary>
 		ForbidAll = 0xFFFF,
 	}
 
@@ -1019,7 +1025,7 @@ namespace AVFoundation {
 		Off = 1,
 		Active = 2,
 		OutOfRange = 3,
-		Unavailable = 4
+		Unavailable = 4,
 	}
 
 	[Introduced (PlatformName.MacCatalyst, 14, 0)]

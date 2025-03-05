@@ -60,7 +60,7 @@ namespace UserNotifications {
 		None = 0,
 		AuthenticationRequired = (1 << 0),
 		Destructive = (1 << 1),
-		Foreground = (1 << 2)
+		Foreground = (1 << 2),
 	}
 
 	/// <summary>Contains flags that control whether a custom dismiss action is used, and whether the category is allowed in CarPlay application.</summary>
@@ -105,7 +105,7 @@ namespace UserNotifications {
 	public enum UNNotificationSetting : long {
 		NotSupported = 0,
 		Disabled,
-		Enabled
+		Enabled,
 	}
 
 	/// <summary>Enumerates the kinds of alerts that notifications display.</summary>
@@ -118,7 +118,7 @@ namespace UserNotifications {
 		/// <summary>The notification may display a temporary slide-down banner alert.</summary>
 		Banner,
 		/// <summary>The notification may display a modal alert.</summary>
-		Alert
+		Alert,
 	}
 
 	[MacCatalyst (13, 1)]
@@ -185,7 +185,7 @@ namespace UserNotifications {
 	public enum UNShowPreviewsSetting : long {
 		Always,
 		WhenAuthenticated,
-		Never
+		Never,
 	}
 
 	[iOS (15, 0), MacCatalyst (15, 0), TV (15, 0)]
@@ -223,9 +223,15 @@ namespace UserNotifications {
 	[DisableDefaultCtor] // as per docs (not user created)
 	interface UNNotification : NSCopying, NSSecureCoding {
 
+		/// <summary>Gets the date on which the notification was delivered.</summary>
+		///         <value>The date on which the notification was delivered.</value>
+		///         <remarks>To be added.</remarks>
 		[Export ("date", ArgumentSemantic.Copy)]
 		NSDate Date { get; }
 
+		/// <summary>Gets the original notification request for the notification.</summary>
+		///         <value>The original notification request for the notification.</value>
+		///         <remarks>To be added.</remarks>
 		[Export ("request", ArgumentSemantic.Copy)]
 		UNNotificationRequest Request { get; }
 	}
@@ -239,12 +245,21 @@ namespace UserNotifications {
 	[DisableDefaultCtor] // as per docs (use FromIdentifier)
 	interface UNNotificationAction : NSCopying, NSSecureCoding {
 
+		/// <summary>To be added.</summary>
+		///         <value>To be added.</value>
+		///         <remarks>To be added.</remarks>
 		[Export ("identifier")]
 		string Identifier { get; }
 
+		/// <summary>Gets the localized action title.</summary>
+		///         <value>The localized action title.</value>
+		///         <remarks>To be added.</remarks>
 		[Export ("title")]
 		string Title { get; }
 
+		/// <summary>Gets the unique identifier that the application will use to find the action.</summary>
+		///         <value>The unique identifier that the application will use to find the action.</value>
+		///         <remarks>To be added.</remarks>
 		[Export ("options")]
 		UNNotificationActionOptions Options { get; }
 
@@ -497,45 +512,84 @@ namespace UserNotifications {
 	[BaseType (typeof (UNNotificationContent))]
 	interface UNMutableNotificationContent {
 
+		/// <summary>Gets or sets an array of <see cref="T:UserNotifications.UNNotificationAttachment" /> objects that contains the attachments for the notification.</summary>
+		///         <value>An array of <see cref="T:UserNotifications.UNNotificationAttachment" /> objects that contains the attachments for the notification.</value>
+		///         <remarks>To be added.</remarks>
 		[Unavailable (PlatformName.TvOS)]
 		[Export ("attachments", ArgumentSemantic.Copy)]
 		UNNotificationAttachment [] Attachments { get; set; }
 
+		/// <summary>Gets or sets the number to display in the app's icon badge.</summary>
+		///         <value>
+		///           <para>The number to display in the app's icon badge.</para>
+		///           <para tool="nullallowed">This value can be <see langword="null" />.</para>
+		///         </value>
+		///         <remarks>To be added.</remarks>
 		[NullAllowed, Export ("badge", ArgumentSemantic.Copy)]
 		NSNumber Badge { get; set; }
 
+		/// <summary>Gets or sets the message that is displayed in the notification alert.</summary>
+		///         <value>The message that is displayed in the notification alert.</value>
+		///         <remarks>To be added.</remarks>
 		[Unavailable (PlatformName.TvOS)]
 		[Export ("body")]
 		string Body { get; set; }
 
+		/// <summary>Gets or sets an application-defined category object identifier.</summary>
+		///         <value>An application-defined category object identifier.</value>
+		///         <remarks>To be added.</remarks>
 		[Unavailable (PlatformName.TvOS)]
 		[Export ("categoryIdentifier")]
 		string CategoryIdentifier { get; set; }
 
+		/// <summary>Gets or sets the name of an image that is stored in the application's bundle to display when the user launches the application from the notification.</summary>
+		///         <value>The name of an image that is stored in the application's bundle to display when the user launches the application from the notification.</value>
+		///         <remarks>To be added.</remarks>
 		[NoTV, NoMac]
 		[MacCatalyst (13, 1)]
 		[Export ("launchImageName")]
 		string LaunchImageName { get; set; }
 
+		/// <summary>Gets or sets the sound that is played when the notification is triggered.</summary>
+		///         <value>
+		///           <para>The sound that is played when the notification is triggered.</para>
+		///           <para tool="nullallowed">This value can be <see langword="null" />.</para>
+		///         </value>
+		///         <remarks>To be added.</remarks>
 		[Unavailable (PlatformName.TvOS)]
 		[NullAllowed, Export ("sound", ArgumentSemantic.Copy)]
 		UNNotificationSound Sound { get; set; }
 
+		/// <summary>Gets or sets the notification subtitle.</summary>
+		///         <value>The notification subtitle.</value>
+		///         <remarks>To be added.</remarks>
 		[Unavailable (PlatformName.TvOS)]
 		[Export ("subtitle")]
 		string Subtitle { get; set; }
 
+		/// <summary>Gets or sets an application-specific identifier that is used to group notifications.</summary>
+		///         <value>An application-specific identifier that is used to group notifications.</value>
+		///         <remarks>To be added.</remarks>
 		[Unavailable (PlatformName.TvOS)]
 		[Export ("threadIdentifier")]
 		string ThreadIdentifier { get; set; }
 
+		/// <summary>Gets or sets the notification descritpion.</summary>
+		///         <value>The notification descritpion.</value>
+		///         <remarks>To be added.</remarks>
 		[Unavailable (PlatformName.TvOS)]
 		[Export ("title")]
 		string Title { get; set; }
 
+		/// <summary>Gets or sets the dictionary of notification custom data.</summary>
+		///         <value>The dictionary of notification custom data.</value>
+		///         <remarks>To be added.</remarks>
 		[Export ("userInfo", ArgumentSemantic.Copy)]
 		NSDictionary UserInfo { get; set; }
 
+		/// <summary>Gets or sets the notification-specific addition to the category summary string.</summary>
+		///         <value>The notification-specific addition to the category summary string.</value>
+		///         <remarks>To be added.</remarks>
 		[NoTV]
 		[Deprecated (PlatformName.iOS, 15, 0, message: "This property is ignored.")]
 		[MacCatalyst (13, 1)]
@@ -543,6 +597,9 @@ namespace UserNotifications {
 		[Export ("summaryArgument")]
 		string SummaryArgument { get; set; }
 
+		/// <summary>Gets or sets the number of arguments that the notification adds to the category summary string.</summary>
+		///         <value>The number of arguments added to the category notification string.</value>
+		///         <remarks>To be added.</remarks>
 		[NoTV]
 		[Deprecated (PlatformName.iOS, 15, 0, message: "This property is ignored.")]
 		[MacCatalyst (13, 1)]
@@ -846,6 +903,9 @@ namespace UserNotifications {
 	[DisableDefaultCtor] // as per doc, use supplied method (CreateTrigger)
 	interface UNLocationNotificationTrigger {
 
+		/// <summary>Gets the region whose boundary activates the trigger.</summary>
+		///         <value>Application developers can set <see cref="P:CoreLocation.CLRegion.NotifyOnEntry" /> and <see cref="P:CoreLocation.CLRegion.NotifyOnExit" /> to control when the trigger is activated.</value>
+		///         <remarks>To be added.</remarks>
 		[Export ("region", ArgumentSemantic.Copy)]
 		CLRegion Region { get; }
 
