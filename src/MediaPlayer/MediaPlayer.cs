@@ -303,8 +303,11 @@ namespace MediaPlayer {
 	[MacCatalyst (13, 1)]
 	[Native]
 	public enum MPChangeLanguageOptionSetting : long {
+		/// <summary>To be added.</summary>
 		None,
+		/// <summary>To be added.</summary>
 		NowPlayingItemOnly,
+		/// <summary>To be added.</summary>
 		Permanent,
 	}
 
@@ -326,7 +329,7 @@ namespace MediaPlayer {
 	[Native]
 	public enum MPSeekCommandEventType : ulong {
 		BeginSeeking,
-		EndSeeking
+		EndSeeking,
 	}
 
 	[MacCatalyst (13, 1)]

@@ -48,6 +48,9 @@ namespace AVFoundation {
 			Error = error;
 		}
 
+		/// <summary>To be added.</summary>
+		///         <value>To be added.</value>
+		///         <remarks>To be added.</remarks>
 		public NSError Error { get; private set; }
 	}
 
@@ -63,12 +66,16 @@ namespace AVFoundation {
 			Status = status;
 		}
 
+		/// <summary>To be added.</summary>
+		///         <value>To be added.</value>
+		///         <remarks>To be added.</remarks>
 		public bool Status { get; private set; }
 	}
 
 #pragma warning disable 672
 	sealed class InternalAVAudioPlayerDelegate : AVAudioPlayerDelegate {
-		internal EventHandler? cbEndInterruption, cbBeginInterruption;
+		internal EventHandler? cbEndInterruption;
+		internal EventHandler? cbBeginInterruption;
 		internal EventHandler<AVStatusEventArgs>? cbFinishedPlaying;
 		internal EventHandler<AVErrorEventArgs?>? cbDecoderError;
 
@@ -168,7 +175,8 @@ namespace AVFoundation {
 
 #if !TVOS
 	internal class InternalAVAudioRecorderDelegate : AVAudioRecorderDelegate {
-		internal EventHandler? cbEndInterruption, cbBeginInterruption;
+		internal EventHandler? cbEndInterruption;
+		internal EventHandler? cbBeginInterruption;
 		internal EventHandler<AVStatusEventArgs>? cbFinishedRecording;
 		internal EventHandler<AVErrorEventArgs?>? cbEncoderError;
 
@@ -309,7 +317,8 @@ namespace AVFoundation {
 
 #if !MONOMAC && !TVOS
 	internal class InternalAVAudioSessionDelegate : AVAudioSessionDelegate {
-		internal EventHandler? cbEndInterruption, cbBeginInterruption;
+		internal EventHandler? cbEndInterruption;
+		internal EventHandler? cbBeginInterruption;
 		internal EventHandler<AVCategoryEventArgs>? cbCategoryChanged;
 		internal EventHandler<AVStatusEventArgs>? cbInputAvailabilityChanged;
 		internal EventHandler<AVSampleRateEventArgs>? cbSampleRateChanged;

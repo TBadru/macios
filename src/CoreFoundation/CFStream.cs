@@ -37,23 +37,11 @@ using System.ComponentModel;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-#if NET
 using CFNetwork;
-#else
-using CoreServices;
-#endif
 using ObjCRuntime;
 using Foundation;
 
-#if NET
 using CFIndex = System.IntPtr;
-#else
-using CFIndex = System.nint;
-#endif
-
-#if !NET
-using NativeHandle = System.IntPtr;
-#endif
 
 namespace CoreFoundation {
 
@@ -70,16 +58,14 @@ namespace CoreFoundation {
 		/// <summary>An error occurred on the steeam.</summary>
 		ErrorOccurred = 8,
 		/// <summary>The end of the stream has been reached.</summary>
-		EndEncountered = 16
+		EndEncountered = 16,
 	}
 
 	// NSStream.h
-#if NET
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos")]
-#endif
 	[StructLayout (LayoutKind.Sequential)]
 	public struct CFStreamClientContext {
 		/// <summary>The version of this structure. Currently the only valid value is 0.</summary>
@@ -180,24 +166,22 @@ namespace CoreFoundation {
 		/// <summary>To be added.</summary>
 		Closed,
 		/// <summary>To be added.</summary>
-		Error
+		Error,
 	}
 
-#if NET
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos")]
-#endif
 	public abstract class CFStream : CFType {
 		GCHandle gch;
 		CFRunLoop? loop;
 		NSString? loopMode;
-		bool open, closed;
+		bool open;
+		bool closed;
 
 		#region Stream Constructors
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("macos")]
@@ -206,17 +190,10 @@ namespace CoreFoundation {
 		[ObsoletedOSPlatform ("maccatalyst15.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("macos12.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("ios15.0", Constants.UseNetworkInstead)]
-#else
-		[Deprecated (PlatformName.TvOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.iOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacCatalyst, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacOSX, 12, 0, message: Constants.UseNetworkInstead)]
-#endif
 		[DllImport (Constants.CoreFoundationLibrary)]
 		internal unsafe extern static void CFStreamCreatePairWithSocket (/* CFAllocatorRef */ IntPtr allocator, CFSocketNativeHandle sock,
 			/* CFReadStreamRef* */ IntPtr* readStream, /* CFWriteStreamRef* */ IntPtr* writeStream);
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("macos")]
@@ -225,12 +202,6 @@ namespace CoreFoundation {
 		[ObsoletedOSPlatform ("maccatalyst15.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("macos12.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("ios15.0", Constants.UseNetworkInstead)]
-#else
-		[Deprecated (PlatformName.TvOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.iOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacCatalyst, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacOSX, 12, 0, message: Constants.UseNetworkInstead)]
-#endif
 		public static void CreatePairWithSocket (CFSocket socket, out CFReadStream readStream,
 												 out CFWriteStream writeStream)
 		{
@@ -245,7 +216,6 @@ namespace CoreFoundation {
 			writeStream = new CFWriteStream (write, true);
 		}
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("macos")]
@@ -254,18 +224,11 @@ namespace CoreFoundation {
 		[ObsoletedOSPlatform ("maccatalyst15.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("macos12.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("ios15.0", Constants.UseNetworkInstead)]
-#else
-		[Deprecated (PlatformName.TvOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.iOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacCatalyst, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacOSX, 12, 0, message: Constants.UseNetworkInstead)]
-#endif
 		[DllImport (Constants.CoreFoundationLibrary)]
 		internal unsafe extern static void CFStreamCreatePairWithPeerSocketSignature (/* CFAllocatorRef */ IntPtr allocator,
 			/* CFSocketSignature* */ CFSocketSignature* sig,
 			/* CFReadStreamRef* */ IntPtr* readStream, /* CFWriteStreamRef* */ IntPtr* writeStream);
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("macos")]
@@ -274,12 +237,6 @@ namespace CoreFoundation {
 		[ObsoletedOSPlatform ("maccatalyst15.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("macos12.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("ios15.0", Constants.UseNetworkInstead)]
-#else
-		[Deprecated (PlatformName.TvOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.iOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacCatalyst, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacOSX, 12, 0, message: Constants.UseNetworkInstead)]
-#endif
 		public static void CreatePairWithPeerSocketSignature (AddressFamily family, SocketType type,
 															  ProtocolType proto, IPEndPoint endpoint,
 															  out CFReadStream readStream,
@@ -297,7 +254,6 @@ namespace CoreFoundation {
 		}
 
 		// CFSocketStream.h in CFNetwork.framework (not CoreFoundation)
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("macos")]
@@ -306,12 +262,6 @@ namespace CoreFoundation {
 		[ObsoletedOSPlatform ("maccatalyst15.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("macos12.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("ios15.0", Constants.UseNetworkInstead)]
-#else
-		[Deprecated (PlatformName.TvOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.iOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacCatalyst, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacOSX, 12, 0, message: Constants.UseNetworkInstead)]
-#endif
 		[DllImport (Constants.CFNetworkLibrary)]
 		internal unsafe extern static void CFStreamCreatePairWithSocketToCFHost (
 			/* CFAllocatorRef __nullable */ IntPtr allocator,
@@ -319,7 +269,6 @@ namespace CoreFoundation {
 			/* CFReadStreamRef __nullable * __nullable */ IntPtr* readStream,
 			/* CFWriteStreamRef __nullable * __nullable */ IntPtr* writeStream);
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("macos")]
@@ -328,12 +277,6 @@ namespace CoreFoundation {
 		[ObsoletedOSPlatform ("maccatalyst15.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("macos12.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("ios15.0", Constants.UseNetworkInstead)]
-#else
-		[Deprecated (PlatformName.TvOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.iOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacCatalyst, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacOSX, 12, 0, message: Constants.UseNetworkInstead)]
-#endif
 		public static void CreatePairWithSocketToHost (IPEndPoint endpoint,
 													   out CFReadStream? readStream,
 													   out CFWriteStream? writeStream)
@@ -349,7 +292,6 @@ namespace CoreFoundation {
 			}
 		}
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("macos")]
@@ -358,18 +300,11 @@ namespace CoreFoundation {
 		[ObsoletedOSPlatform ("maccatalyst15.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("macos12.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("ios15.0", Constants.UseNetworkInstead)]
-#else
-		[Deprecated (PlatformName.TvOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.iOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacCatalyst, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacOSX, 12, 0, message: Constants.UseNetworkInstead)]
-#endif
 		[DllImport (Constants.CoreFoundationLibrary)]
 		unsafe extern static void CFStreamCreatePairWithSocketToHost (/* CFAllocatorRef */ IntPtr allocator,
 			/* CFStringRef */ IntPtr host, /* UInt32 */ int port,
 			/* CFReadStreamRef* */ IntPtr* readStream, /* CFWriteStreamRef* */ IntPtr* writeStream);
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("macos")]
@@ -378,12 +313,6 @@ namespace CoreFoundation {
 		[ObsoletedOSPlatform ("maccatalyst15.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("macos12.0", Constants.UseNetworkInstead)]
 		[ObsoletedOSPlatform ("ios15.0", Constants.UseNetworkInstead)]
-#else
-		[Deprecated (PlatformName.TvOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.iOS, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacCatalyst, 15, 0, message: Constants.UseNetworkInstead)]
-		[Deprecated (PlatformName.MacOSX, 12, 0, message: Constants.UseNetworkInstead)]
-#endif
 		public static void CreatePairWithSocketToHost (string host, int port,
 													   out CFReadStream? readStream,
 													   out CFWriteStream? writeStream)
@@ -399,7 +328,6 @@ namespace CoreFoundation {
 			}
 		}
 		// CFHTTPStream.h in CFNetwork.framework (not CoreFoundation)
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("macos")]
@@ -408,15 +336,10 @@ namespace CoreFoundation {
 		[ObsoletedOSPlatform ("ios9.0")]
 		[ObsoletedOSPlatform ("maccatalyst13.0")]
 		[ObsoletedOSPlatform ("tvos9.0")]
-#else
-		[Deprecated (PlatformName.iOS, 9, 0)]
-		[Deprecated (PlatformName.MacOSX, 10, 11)]
-#endif
 		[DllImport (Constants.CFNetworkLibrary)]
 		internal extern static /* CFReadStreamRef __nonnull */ IntPtr CFReadStreamCreateForHTTPRequest (
 			/* CFAllocatorRef __nullable */ IntPtr alloc, /* CFHTTPMessageRef __nonnull */ IntPtr request);
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("macos")]
@@ -425,10 +348,6 @@ namespace CoreFoundation {
 		[ObsoletedOSPlatform ("ios9.0", "Use 'NSUrlSession' instead.")]
 		[ObsoletedOSPlatform ("maccatalyst13.0", "Use 'NSUrlSession' instead.")]
 		[ObsoletedOSPlatform ("tvos9.0", "Use 'NSUrlSession' instead.")]
-#else
-		[Deprecated (PlatformName.iOS, 9, 0, message: "Use 'NSUrlSession' instead.")]
-		[Deprecated (PlatformName.MacOSX, 10, 11, message: "Use 'NSUrlSession' instead.")]
-#endif
 		public static CFHTTPStream CreateForHTTPRequest (CFHTTPMessage request)
 		{
 			if (request is null)
@@ -439,7 +358,6 @@ namespace CoreFoundation {
 		}
 
 		// CFHTTPStream.h in CFNetwork.framework (not CoreFoundation)
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("macos")]
@@ -448,16 +366,11 @@ namespace CoreFoundation {
 		[ObsoletedOSPlatform ("ios9.0")]
 		[ObsoletedOSPlatform ("maccatalyst13.0")]
 		[ObsoletedOSPlatform ("tvos9.0")]
-#else
-		[Deprecated (PlatformName.iOS, 9, 0)]
-		[Deprecated (PlatformName.MacOSX, 10, 11)]
-#endif
 		[DllImport (Constants.CFNetworkLibrary)]
 		internal extern static /* CFReadStreamRef __nonnull */ IntPtr CFReadStreamCreateForStreamedHTTPRequest (
 			/* CFAllocatorRef __nullable */ IntPtr alloc, /* CFHTTPMessageRef __nonnull */ IntPtr requestHeaders,
 			/* CFReadStreamRef __nonnull */ IntPtr requestBody);
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("macos")]
@@ -466,10 +379,6 @@ namespace CoreFoundation {
 		[ObsoletedOSPlatform ("ios9.0", "Use 'NSUrlSession' instead.")]
 		[ObsoletedOSPlatform ("maccatalyst13.0", "Use 'NSUrlSession' instead.")]
 		[ObsoletedOSPlatform ("tvos9.0", "Use 'NSUrlSession' instead.")]
-#else
-		[Deprecated (PlatformName.iOS, 9, 0, message: "Use 'NSUrlSession' instead.")]
-		[Deprecated (PlatformName.MacOSX, 10, 11, message: "Use 'NSUrlSession' instead.")]
-#endif
 		public static CFHTTPStream CreateForStreamedHTTPRequest (CFHTTPMessage request, CFReadStream body)
 		{
 			if (request is null)
@@ -540,13 +449,9 @@ namespace CoreFoundation {
 				return;
 			GetCheckedHandle ();
 			if (loop is not null) {
-#if NET8_0_OR_GREATER
 				unsafe {
 					DoSetClient ((delegate* unmanaged<IntPtr, nint, IntPtr, void>) null, (CFIndex) 0, IntPtr.Zero);
 				}
-#else
-				DoSetClient (null, (CFIndex) 0, IntPtr.Zero);
-#endif
 				UnscheduleFromRunLoop (loop, loopMode);
 				loop = null;
 				loopMode = null;
@@ -593,12 +498,10 @@ namespace CoreFoundation {
 
 		#region Events
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("macos")]
 		[SupportedOSPlatform ("tvos")]
-#endif
 		public class StreamEventArgs : EventArgs {
 			public CFStreamEventType EventType {
 				get;
@@ -665,20 +568,12 @@ namespace CoreFoundation {
 
 		protected delegate void CFStreamCallback (IntPtr s, nint type, IntPtr info);
 
-#if NET8_0_OR_GREATER
 		[UnmanagedCallersOnly]
-#else
-		[MonoPInvokeCallback (typeof (CFStreamCallback))]
-#endif
 		static void NativeCallback (IntPtr s, nint type, IntPtr info)
 		{
 			var stream = GCHandle.FromIntPtr (info).Target as CFStream;
 			stream?.OnCallback ((CFStreamEventType) (long) type);
 		}
-
-#if !NET8_0_OR_GREATER
-		static CFStreamCallback OnCallbackDelegate = NativeCallback;
-#endif
 
 		protected virtual void OnCallback (CFStreamEventType type)
 		{
@@ -726,13 +621,9 @@ namespace CoreFoundation {
 			try {
 				Marshal.StructureToPtr<CFStreamClientContext> (ctx, ptr, false);
 				bool clientSet;
-#if NET8_0_OR_GREATER
 				unsafe {
 					clientSet = DoSetClient (&NativeCallback, (CFIndex) (long) args, ptr) != 0;
 				}
-#else
-				clientSet = DoSetClient (OnCallbackDelegate, (CFIndex) (long) args, ptr);
-#endif
 				if (!clientSet)
 					throw new InvalidOperationException ("Stream does not support async events.");
 			} finally {
@@ -743,15 +634,12 @@ namespace CoreFoundation {
 		}
 
 #if !XAMCORE_5_0
-#if NET8_0_OR_GREATER
 		[Obsolete ("Use the other overload.")]
 		[EditorBrowsable (EditorBrowsableState.Never)]
-#endif
 		protected abstract bool DoSetClient (CFStreamCallback? callback, CFIndex eventTypes,
 											 IntPtr context);
 #endif
 
-#if NET8_0_OR_GREATER
 #if XAMCORE_5_0
 		unsafe protected abstract byte DoSetClient (delegate* unmanaged<IntPtr, nint, IntPtr, void> callback, CFIndex eventTypes, IntPtr context);
 #else
@@ -760,16 +648,6 @@ namespace CoreFoundation {
 			throw new InvalidOperationException ($"This method must be overridden (and don't call base)");
 		}
 #endif // XAMCORE_5_0
-#endif // NET8_0_OR_GREATER
-
-
-#if !NET
-		[Obsolete ("Call 'GetCheckedHandle ()' instead.")]
-		protected void CheckHandle ()
-		{
-			GetCheckedHandle ();
-		}
-#endif
 
 		[Preserve (Conditional = true)]
 		protected CFStream (NativeHandle handle, bool owns)
@@ -787,48 +665,38 @@ namespace CoreFoundation {
 			base.Dispose (disposing);
 		}
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("macos")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("tvos")]
-#endif
 		[DllImport (Constants.CoreFoundationLibrary)]
 		extern static void CFReadStreamSetDispatchQueue (/* CFReadStreamRef */ IntPtr stream, /* dispatch_queue_t */ IntPtr queue);
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("macos")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("tvos")]
-#endif
 		[DllImport (Constants.CoreFoundationLibrary)]
 		extern static void CFWriteStreamSetDispatchQueue (/* CFWriteStreamRef */ IntPtr stream, /* dispatch_queue_t */ IntPtr queue);
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("macos")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("tvos")]
-#endif
 		[DllImport (Constants.CoreFoundationLibrary)]
 		extern static /* dispatch_queue_t */ IntPtr CFReadStreamCopyDispatchQueue (/* CFReadStreamRef */ IntPtr stream);
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("macos")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("tvos")]
-#endif
 		[DllImport (Constants.CoreFoundationLibrary)]
 		extern static /* dispatch_queue_t */ IntPtr CFWriteStreamCopyDispatchQueue (/* CFWriteStreamRef */ IntPtr stream);
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("macos")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("tvos")]
-#endif
 		public DispatchQueue ReadDispatchQueue {
 			get {
 				return new DispatchQueue (CFReadStreamCopyDispatchQueue (Handle), true);
@@ -838,12 +706,10 @@ namespace CoreFoundation {
 			}
 		}
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("macos")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("tvos")]
-#endif
 		public DispatchQueue WriteDispatchQueue {
 			get {
 				return new DispatchQueue (CFWriteStreamCopyDispatchQueue (Handle), true);
