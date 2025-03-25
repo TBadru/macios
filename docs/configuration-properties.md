@@ -32,5 +32,6 @@ These are options that are set when the `Optimize` property is `true` (which hap
 
 | **Property**                   | **Value**  |
 |--------------------------------|------------|
+| HttpActivityPropagationSupport | false      |
 | MetricsSupport                 | false      |
 
