@@ -486,9 +486,16 @@ namespace AuthenticationServices {
 		[Export ("initWithURL:callback:completionHandler:")]
 		NativeHandle Constructor (NSUrl url, ASWebAuthenticationSessionCallback callback, ASWebAuthenticationSessionCompletionHandler completionHandler);
 
+		/// <summary>Begins the Safari-based logon, returning <see langword="true" /> if the session started successfully.</summary>
+		///         <returns>To be added.</returns>
+		///         <remarks>To be added.</remarks>
 		[Export ("start")]
 		bool Start ();
 
+		/// <summary>Developers can call this method to cancel the authentication session and dismiss the associated <see cref="T:UIKit.UIViewController" />.</summary>
+		///         <remarks>
+		///           <para>After the initial call to this method, subsequent calls have no effect.</para>
+		///         </remarks>
 		[NoTV]
 		[MacCatalyst (13, 1)]
 		[Export ("cancel")]
@@ -1938,7 +1945,7 @@ namespace AuthenticationServices {
 		SecKey LoginRequestEncryptionPublicKey {
 			[Wrap ("new SecKey (this._LoginRequestEncryptionPublicKey, owns: false)")]
 			get;
-			[Wrap ("_LoginRequestEncryptionPublicKey = value.Handle")]
+			[Wrap ("_LoginRequestEncryptionPublicKey = Runtime.RetainAndAutoreleaseNativeObject (value)")]
 			set;
 		}
 
@@ -2080,9 +2087,6 @@ namespace AuthenticationServices {
 		[Export ("saveCertificate:keyType:")]
 		void _Save (IntPtr certificate, ASAuthorizationProviderExtensionKeyType keyType);
 
-		[Wrap ("_Save (certificate.GetHandle (), keyType)")]
-		void Save (SecCertificate certificate, ASAuthorizationProviderExtensionKeyType keyType);
-
 		[Protected]
 		[Export ("copyKeyForKeyType:")]
 		[return: NullAllowed]
@@ -2145,7 +2149,20 @@ namespace AuthenticationServices {
 		[Mac (15, 0)]
 		[Export ("completeKeyRotationForKeyType:")]
 		void CompleteKeyRotation (ASAuthorizationProviderExtensionKeyType keyType);
+
+		[Mac (15, 4)]
+		[Export ("attestKey:clientDataHash:completion:")]
+		[Async]
+		void AttestKey (ASAuthorizationProviderExtensionKeyType keyType, NSData clientDataHash, ASAuthorizationProviderExtensionLoginManagerAttestCallback completion);
+
+		[Mac (15, 4)]
+		[Export ("attestPendingKey:clientDataHash:completion:")]
+		[Async]
+		void AttestPendingKey (ASAuthorizationProviderExtensionKeyType keyType, NSData clientDataHash, ASAuthorizationProviderExtensionLoginManagerAttestCallback completion);
+
 	}
+
+	delegate void ASAuthorizationProviderExtensionLoginManagerAttestCallback ([NullAllowed] NSArray attestationCertificates, [NullAllowed] NSError error);
 
 	[NoTV, NoiOS, NoMacCatalyst, Mac (13, 0)]
 	[Protocol]
