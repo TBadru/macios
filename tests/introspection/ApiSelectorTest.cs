@@ -303,13 +303,6 @@ namespace Introspection {
 					break;
 				}
 				break;
-			case "NSImage":
-				switch (selectorName) {
-				case "initByReferencingFile:":
-					return true;
-				}
-				break;
-
 			case "OSLogMessageComponent":
 				switch (selectorName) {
 				case "encodeWithCoder:":
@@ -1353,9 +1346,6 @@ namespace Introspection {
 			case "initWithRTFD:documentAttributes:":
 			case "initWithURL:options:documentAttributes:error:":
 			case "initWithFileURL:options:documentAttributes:error:":
-			// AVAudioRecorder
-			case "initWithURL:settings:error:":
-			case "initWithURL:format:error:":
 			// NSUrlProtectionSpace
 			case "initWithHost:port:protocol:realm:authenticationMethod:":
 			case "initWithProxyHost:port:type:realm:authenticationMethod:":
@@ -1365,8 +1355,6 @@ namespace Introspection {
 			// GKScore
 			case "initWithCategory:":
 			case "initWithLeaderboardIdentifier:":
-			// MCSession
-			case "initWithPeer:securityIdentity:encryptionPreference:":
 			// INSetProfileInCarIntent and INSaveProfileInCarIntent
 			case "initWithProfileNumber:profileName:defaultProfile:":
 			case "initWithProfileNumber:profileLabel:defaultProfile:":
@@ -1380,21 +1368,14 @@ namespace Introspection {
 			case "initWithUUID:identifier:":
 			case "initWithUUID:major:identifier:":
 			case "initWithUUID:major:minor:identifier:":
-			// Intents
-			case "initWithPersonHandle:nameComponents:displayName:image:contactIdentifier:customIdentifier:isMe:suggestionType:":
-			case "initWithPersonHandle:nameComponents:displayName:image:contactIdentifier:customIdentifier:isContactSuggestion:suggestionType:":
 			// NEHotspotConfiguration
 			case "initWithSSID:":
 			case "initWithSSID:passphrase:isWEP:":
 			case "initWithSSIDPrefix:":
 			case "initWithSSIDPrefix:passphrase:isWEP:":
 			// MapKit
-			case "initWithMaxCenterCoordinateDistance:":
-			case "initWithMinCenterCoordinateDistance:":
 			case "initExcludingCategories:":
 			case "initIncludingCategories:":
-			// NSImage
-			case "initWithDataIgnoringOrientation:":
 				var mi = m as MethodInfo;
 				return mi is not null && !mi.IsPublic && (mi.ReturnType.Name == "IntPtr" || mi.ReturnType.Name == "NativeHandle");
 			// NSAppleEventDescriptor

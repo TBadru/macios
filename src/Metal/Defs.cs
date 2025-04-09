@@ -17,13 +17,12 @@ using ObjCRuntime;
 #nullable enable
 
 namespace Metal {
-
-#if NET
+	/// <summary>The location of a pixel in an image or texture.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos")]
-#endif
 	public struct MTLOrigin {
 		/// <summary>To be added.</summary>
 		///         <remarks>To be added.</remarks>
@@ -51,12 +50,12 @@ namespace Metal {
 		}
 	}
 
-#if NET
+	/// <summary>The dimensions of a grid, image, texture, or threadgroup.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos")]
-#endif
 	public struct MTLSize {
 		/// <summary>To be added.</summary>
 		///         <remarks>To be added.</remarks>
@@ -77,24 +76,21 @@ namespace Metal {
 	}
 
 #if !COREBUILD
-#if NET
+	/// <summary>Extension methods for <see cref="T:Metal.MTLVertexFormat" />.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos")]
-#endif
 	public static class MTLVertexFormatExtensions {
 
-#if NET
 		[SupportedOSPlatform ("ios")]
 		[SupportedOSPlatform ("macos")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("tvos")]
-#endif
 		[DllImport (Constants.MetalKitLibrary)]
 		static extern /* MDLVertexFormat */ nuint MTKModelIOVertexFormatFromMetal (/* MTLVertexFormat */ nuint modelIODescriptor);
 
-#if NET
 		/// <param name="vertexFormat">To be added.</param>
 		///         <summary>Converts from the current to the desired <paramref name="vertexFormat" />.</summary>
 		///         <returns>To be added.</returns>
@@ -103,7 +99,6 @@ namespace Metal {
 		[SupportedOSPlatform ("macos")]
 		[SupportedOSPlatform ("maccatalyst")]
 		[SupportedOSPlatform ("tvos")]
-#endif
 		public static MDLVertexFormat ToModelVertexFormat (this MTLVertexFormat vertexFormat)
 		{
 			nuint mdlVertexFormat = MTKModelIOVertexFormatFromMetal ((nuint) (ulong) vertexFormat);
@@ -112,12 +107,12 @@ namespace Metal {
 	}
 #endif
 
-#if NET
+	/// <summary>The retangle used for the scissor fragment test.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos")]
-#endif
 	public struct MTLScissorRect {
 		/// <summary>To be added.</summary>
 		///         <remarks>To be added.</remarks>
@@ -149,12 +144,12 @@ namespace Metal {
 		}
 	}
 
-#if NET
+	/// <summary>Defines the clipping viewport.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos")]
-#endif
 	public struct MTLViewport {
 		/// <summary>To be added.</summary>
 		///         <remarks>To be added.</remarks>
@@ -202,12 +197,12 @@ namespace Metal {
 		}
 	}
 
-#if NET
+	/// <summary>A sample position.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos")]
-#endif
 	[StructLayout (LayoutKind.Sequential)]
 	public struct MTLSamplePosition {
 		/// <summary>The X value, in the range [0.0, 1.0).</summary>
@@ -229,13 +224,12 @@ namespace Metal {
 		}
 	}
 
-
-#if NET
+	/// <summary>An RGBA color representing a clear pixel.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos")]
-#endif
 	public struct MTLClearColor {
 		/// <summary>To be added.</summary>
 		///         <remarks>To be added.</remarks>
@@ -265,12 +259,12 @@ namespace Metal {
 		}
 	}
 
-#if NET
+	/// <summary>A rectangle of pixels in an image or texture.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos")]
-#endif
 	public struct MTLRegion {
 		/// <summary>To be added.</summary>
 		///         <remarks>To be added.</remarks>
@@ -341,12 +335,12 @@ namespace Metal {
 		}
 	}
 
-#if NET
+	/// <summary>Struct that contains values that are used to clear various buffers and stencils.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos")]
-#endif
 	[StructLayout (LayoutKind.Explicit)]
 	public struct MTLClearValue {
 		/// <summary>To be added.</summary>
@@ -401,12 +395,12 @@ namespace Metal {
 		}
 	}
 
-#if NET
+	/// <summary>Represents the number of threadgroups in each grid dimension for indirectly dispatched threadgroups.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos")]
-#endif
 	public struct MTLDispatchThreadgroupsIndirectArguments {
 		/// <summary>Gets the threadgrops for the first dimension of the grid.</summary>
 		///         <remarks>To be added.</remarks>
@@ -419,12 +413,12 @@ namespace Metal {
 		public uint ThreadGroupsPerGrid3;
 	}
 
-#if NET
+	/// <summary>To be added.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("tvos")]
 	[SupportedOSPlatform ("maccatalyst")]
-#endif
 	[StructLayout (LayoutKind.Sequential)]
 	public struct MTLStageInRegionIndirectArguments {
 		/// <summary>To be added.</summary>
@@ -448,12 +442,12 @@ namespace Metal {
 		public uint StageInSize3;
 	}
 
-#if NET
+	/// <summary>Represents the data layout needed to draw primitives.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos")]
-#endif
 	public struct MTLDrawPrimitivesIndirectArguments {
 		/// <summary>The number of vertices.</summary>
 		///         <remarks>To be added.</remarks>
@@ -469,12 +463,12 @@ namespace Metal {
 		public uint BaseInstance;
 	}
 
-#if NET
+	/// <summary>Represents the data layout needed to draw indexed primitives.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos")]
-#endif
 	public struct MTLDrawIndexedPrimitivesIndirectArguments {
 		/// <summary>The number of indices to read from the index buffer for each instance.</summary>
 		///         <remarks>To be added.</remarks>
@@ -493,12 +487,12 @@ namespace Metal {
 		public uint BaseInstance;
 	}
 
-#if NET
+	/// <summary>To be added.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("tvos")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("maccatalyst")]
-#endif
 	[StructLayout (LayoutKind.Sequential)]
 	public struct MTLSizeAndAlign {
 		/// <summary>To be added.</summary>
@@ -516,12 +510,12 @@ namespace Metal {
 
 	}
 
-#if NET
+	/// <summary>To be added.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("tvos")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("maccatalyst")]
-#endif
 	[StructLayout (LayoutKind.Sequential)]
 	public struct MTLDrawPatchIndirectArguments {
 		/// <summary>To be added.</summary>
@@ -553,12 +547,12 @@ namespace Metal {
 
 	}
 
-#if NET
+	/// <summary>To be added.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("tvos")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("maccatalyst")]
-#endif
 	[StructLayout (LayoutKind.Sequential)]
 	public struct MTLQuadTessellationFactorsHalf {
 #if XAMCORE_5_0
@@ -629,12 +623,12 @@ namespace Metal {
 
 	}
 
-#if NET
+	/// <summary>To be added.</summary>
+	///     <remarks>To be added.</remarks>
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("tvos")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("maccatalyst")]
-#endif
 	[StructLayout (LayoutKind.Sequential)]
 	public struct MTLTriangleTessellationFactorsHalf {
 #if XAMCORE_5_0
@@ -691,14 +685,9 @@ namespace Metal {
 	}
 #endif // COREBUILD
 #if MONOMAC
-#if NET
 	[SupportedOSPlatform ("macos")]
 	[UnsupportedOSPlatform ("ios")]
 	[UnsupportedOSPlatform ("tvos")]
-#else
-	[NoiOS]
-	[NoTV]
-#endif
 	public struct MTLIndirectCommandBufferExecutionRange {
 		public uint Location;
 		public uint Length;
@@ -711,15 +700,10 @@ namespace Metal {
 	}
 #endif // MONOMAC
 
-#if NET
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("ios13.0")]
 	[SupportedOSPlatform ("tvos13.0")]
 	[SupportedOSPlatform ("maccatalyst")]
-#else
-	[iOS (13, 0)]
-	[TV (13, 0)]
-#endif
 	[StructLayout (LayoutKind.Sequential)]
 	public struct MTLTextureSwizzleChannels {
 #if COREBUILD
@@ -740,17 +724,10 @@ namespace Metal {
 	}
 
 #if IOS || MONOMAC || COREBUILD || TVOS
-
-#if NET
 	[SupportedOSPlatform ("ios13.0")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos16.0")]
-#else
-	[Introduced (PlatformName.iOS, 13,0, PlatformArchitecture.All)]
-	[Introduced (PlatformName.MacCatalyst, 13, 4)]
-	[Introduced (PlatformName.TvOS, 16, 0)]
-#endif
 	[StructLayout (LayoutKind.Sequential)]
 	public struct MTLVertexAmplificationViewMapping {
 		public uint ViewportArrayIndexOffset;
@@ -758,16 +735,10 @@ namespace Metal {
 		public uint RenderTargetArrayIndexOffset;
 	}
 
-#if NET
 	[SupportedOSPlatform ("ios13.0")]
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("tvos17.0")]
-#else
-	[Introduced (PlatformName.iOS, 13,0, PlatformArchitecture.All)]
-	[Introduced (PlatformName.MacCatalyst, 13, 4)]
-	[Introduced (PlatformName.TvOS, 17,0)]
-#endif
 	[StructLayout (LayoutKind.Sequential)]
 	public struct MTLCoordinate2D {
 		public float X;
@@ -776,16 +747,10 @@ namespace Metal {
 	}
 #endif
 
-#if NET
 	[SupportedOSPlatform ("maccatalyst")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("ios14.0")]
 	[SupportedOSPlatform ("tvos16.1")]
-#else
-	[MacCatalyst (14, 0)]
-	[iOS (14, 0)]
-	[TV (16, 1)]
-#endif
 	[StructLayout (LayoutKind.Sequential)]
 	public struct MTLAccelerationStructureSizes {
 		public nuint AccelerationStructureSize;
@@ -795,14 +760,10 @@ namespace Metal {
 		public nuint RefitScratchBufferSize;
 	}
 
-#if NET
 	[SupportedOSPlatform ("ios16.0")]
 	[SupportedOSPlatform ("maccatalyst16.0")]
 	[SupportedOSPlatform ("macos13.0")]
 	[SupportedOSPlatform ("tvos16.0")]
-#else
-	[Mac (13, 0), iOS (16, 0), TV (16, 0), MacCatalyst (16, 0)]
-#endif
 	[NativeName ("MTLResourceID")]
 	[StructLayout (LayoutKind.Sequential)]
 	public struct MTLResourceId {
