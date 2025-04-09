@@ -10406,10 +10406,10 @@ namespace AppKit {
 		//NativeHandle Constructor (NSUrl url);
 
 		[Sealed, Export ("initWithContentsOfFile:"), Internal]
-		IntPtr InitWithContentsOfFile (string fileName);
+		IntPtr _InitWithContentsOfFile (string fileName);
 
 		[Export ("initByReferencingFile:"), Internal]
-		IntPtr InitByReferencingFile (string name);
+		IntPtr _InitByReferencingFile (string name);
 
 		[NoMacCatalyst]
 		[Export ("initWithPasteboard:")]
@@ -10417,10 +10417,10 @@ namespace AppKit {
 
 		[Export ("initWithData:"), Internal]
 		[Sealed]
-		IntPtr InitWithData (NSData data);
+		IntPtr _InitWithData (NSData data);
 
 		[Export ("initWithDataIgnoringOrientation:"), Internal]
-		IntPtr InitWithDataIgnoringOrientation (NSData data);
+		IntPtr _InitWithDataIgnoringOrientation (NSData data);
 
 		[NoMacCatalyst]
 		[Export ("drawAtPoint:fromRect:operation:fraction:")]
