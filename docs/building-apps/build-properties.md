@@ -916,6 +916,99 @@ only scan libraries with the `[LinkWith]` attribute for Objective-C classes:
 </PropertyGroup>
 ```
 
+## RunWithOpen
+
+This property determines whether apps are launched using the `open` command on
+macOS, or if the app's executable is executed directly.
+
+This only applies to macOS and Mac Catalyst apps.
+
+The default value is `true`. In this mode, the app will be launched by macOS as any other UI application, any stdout/stderr output will be swallowed by macOS, and the `dotnet run` command will finish as soon as the app has launched.
+
+If set to `false`, any stdout/stderr output will be printed to the current terminal, and the `dotnet run` command won't finish until the app has exited.
+
+The following properties can be used to configure the behavior when set to `true` (i.e. using the `open` command):
+
+### OpenNewInstance
+
+If a new instance will be opened if the app is already running (defaults to `false`).
+
+This will pass `-n` to `open` if set to `true`.
+
+Example:
+
+```shell
+$ dotnet run -p:OpenNewInstance=false
+```
+
+### OpenArguments
+
+This property can be used to pass additional arguments to the `open` command.
+
+Example (to set environment variables):
+
+```shell
+$ dotnet run -p:OpenArguments="--env VARIABLE1=VALUE1 --env VARIABLE2=value2"
+```
+
+Example (to redirect stdout and stderr to a file):
+
+```shell
+$ dotnet run -p:OpenArguments="--stdout /tmp/stdout.txt --stderr /tmp/stderr.txt"
+```
+
+Run `man open` to see a list of all the options `open` accepts.
+
+### StandardOutputPath
+
+This property can be used to redirect the stdout output from the app to a file.
+
+Example writing to a file:
+
+```shell
+$ dotnet run -p:StandardOutputPath=stdout.txt
+```
+
+Example writing to the current terminal:
+
+```shell
+$ dotnet run -p:StandardOutputPath=$(tty)
+[... Console.WriteLine output from app ...]
+```
+
+Note: this can also be accomplished by passing `--stdout ...` using the [OpenArguments](#openarguments) property.
+
+### StandardErrorPath
+
+This property can be used to redirect the stderr output from the app to a file.
+
+Example writing to a file:
+
+```shell
+$ dotnet run -p:StandardErrorPath=stderr.txt
+```
+
+Example writing to the current terminal:
+
+```shell
+$ dotnet run -p:StandardErrorPath=$(tty)
+[... Console.Error.WriteLine output from app ...]
+```
+
+Note: this can also be accomplished by passing `--stderr ...` using the [OpenArguments](#openarguments) property.
+
+### StandardInputPath
+
+This property can be used to redirect the stdin input to the app from a file.
+
+Example:
+
+```shell
+$ dotnet run -p:StandardInputPath=stdin.txt
+```
+
+Note: this can also be accomplished by passing `--stdin ...` using the [OpenArguments](#openarguments) property.
+
 ## SkipStaticLibraryValidation
 
 Hot Restart doesn't support linking with static libraries, so by default we'll
