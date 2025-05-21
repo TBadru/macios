@@ -130,6 +130,7 @@ targets/Microsoft.$(1).Sdk.Versions.props: targets/Microsoft.Sdk.Versions.templa
 		-e 's/@XCODE_IS_PREVIEW@/$(XCODE_IS_PREVIEW)/g' \
 		-e 's/@DOTNET_TFM@/$(DOTNET_TFM)/g' \
 		-e 's/@NUGET_OS_VERSION@/$$($(2)_NUGET_OS_VERSION)/g' \
+		-e 's/@XCODE_VERSION@/$(XCODE_VERSION)/g' \
 		-e "s/@PLATFORM_LOWER@/$(5)/g" \
 		$$< > $$@.tmp
 	$$(Q) mv $$@.tmp $$@
