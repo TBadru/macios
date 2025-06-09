@@ -191,7 +191,7 @@ namespace ObjCRuntime {
 			}
 		}
 		static bool? is_at_least_xcode_16_4;
-		
+
 		[SupportedOSPlatformGuard ("ios26.0")]
 		[SupportedOSPlatformGuard ("maccatalyst26.0")]
 		[SupportedOSPlatformGuard ("macos26.0")]
