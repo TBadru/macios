@@ -91,7 +91,7 @@ steps:
     displayName: 'Provision dependencies'
     timeoutInMinutes: 250
     env:
-      XCODE_CHANNEL: ${{ parameters.XcodeChannel }}
+      XCODE_CHANNEL: ${{ parameters.xcodeChannel }}
 
   # Use the env variables that were set by the label parsing in the configure step
   # print some useful logging to allow to know what is going on AND allow make some
