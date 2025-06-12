@@ -81,6 +81,18 @@ steps:
     timeoutInMinutes: 250
     retryCountOnTaskFailure: ${{ parameters.retryCount }}  # mono does give issues sometimes to download, we will retry
 
+  - bash: |
+      set -x
+      set -e
+      ARGS=()
+      ARGS+=(--ignore-all)
+      ARGS+=(--provision-xcode-components)
+      $(Build.SourcesDirectory)/$(BUILD_REPOSITORY_TITLE)/system-dependencies.sh "${ARGS[@]}"
+    displayName: 'Provision dependencies'
+    timeoutInMinutes: 250
+    env:
+      XCODE_CHANNEL: ${{ parameters.XcodeChannel }}
+
   # Use the env variables that were set by the label parsing in the configure step
   # print some useful logging to allow to know what is going on AND allow make some
   # choices, there are labels that contradict each other (skip-package vs build-packages)
