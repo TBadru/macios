@@ -47,6 +47,9 @@ parameters:
     type: boolean
     default: true
 
+  - name: XcodeChannel
+    type: string
+
 steps:
 
   - template: ../common/checkout.yml
