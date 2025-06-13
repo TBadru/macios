@@ -74,6 +74,7 @@ IGNORED_TVOS_FRAMEWORKS = \
 IGNORED_MACOS_FRAMEWORKS = \
 	$(COMMON_IGNORED_FRAMEWORKS) \
 	AccessorySetupKit \
+	CompositorServices \
 
 IGNORED_MACCATALYST_FRAMEWORKS = \
 	$(COMMON_IGNORED_FRAMEWORKS) \
@@ -84,6 +85,7 @@ IGNORED_MACCATALYST_FRAMEWORKS = \
 	CalendarStore \
 	Carbon \
 	ClockKit \
+	CompositorServices \
 	DiscRecordingUI \
 	FSKit \
 	GLKit \
@@ -107,17 +109,25 @@ COMMON_SHARPIE_ARGUMENTS = \
 IOS_SHARPIE_ARGUMENTS = \
 	$(COMMON_SHARPIE_ARGUMENTS) \
 	$(CORETELEPHONY_HEADERS) \
+	--compiler-arguments=-F \
+	--compiler-arguments=$(XCODE_DEVELOPER_ROOT)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS$(IOS_SDK_VERSION).sdk/System/Library/SubFrameworks
 
 TVOS_SHARPIE_ARGUMENTS = \
 	$(COMMON_SHARPIE_ARGUMENTS) \
+	--compiler-arguments=-F \
+	--compiler-arguments=$(XCODE_DEVELOPER_ROOT)/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS$(TVOS_SDK_VERSION).sdk/System/Library/SubFrameworks
 
 MACCATALYST_SHARPIE_ARGUMENTS = \
 	$(COMMON_SHARPIE_ARGUMENTS) \
 	$(CORETELEPHONY_HEADERS) \
+	--compiler-arguments=-F \
+	--compiler-arguments=$(XCODE_DEVELOPER_ROOT)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX$(MACOS_SDK_VERSION).sdk/System/Library/SubFrameworks
 
 MACOS_SHARPIE_ARGUMENTS = \
 	$(COMMON_SHARPIE_ARGUMENTS) \
 	$(CORETELEPHONY_HEADERS) \
+	--compiler-arguments=-F \
+	--compiler-arguments=$(XCODE_DEVELOPER_ROOT)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX$(MACOS_SDK_VERSION).sdk/System/Library/SubFrameworks
 
 IOS_PLATFORM=iphoneos$(IOS_SDK_VERSION)
 TVOS_PLATFORM=appletvos$(TVOS_SDK_VERSION)

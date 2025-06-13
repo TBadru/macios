@@ -1,0 +1,4 @@
+!missing-enum! AUAudioMixRenderingStyle not bound
+!missing-pinvoke! AudioConverterFillComplexBufferRealtimeSafe is not bound
+!missing-pinvoke! AudioConverterFillComplexBufferWithPacketDependencies is not bound
+!missing-pinvoke! AudioFileWritePacketsWithDependencies is not bound

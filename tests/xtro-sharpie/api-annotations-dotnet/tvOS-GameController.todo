@@ -1,0 +1,6 @@
+!missing-field! GCInputGripButton not bound
+!missing-field! GCInputThumbstick not bound
+!missing-field! GCInputThumbstickButton not bound
+!missing-field! GCInputTrigger not bound
+!missing-field! GCProductCategorySpatialController not bound
+!missing-protocol-member! GCButtonElement::forceInput not found

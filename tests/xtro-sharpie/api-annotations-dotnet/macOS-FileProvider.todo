@@ -1,0 +1,10 @@
+!missing-enum-value! NSFileProviderError native value NSFileProviderErrorLocalVersionConflictingWithServer = -2015 not bound
+!missing-enum-value! NSFileProviderModifyItemOptions native value NSFileProviderModifyItemFailOnConflict = 2 not bound
+!missing-protocol! NSFileProviderSearchEnumerationObserver not bound
+!missing-protocol! NSFileProviderSearchEnumerator not bound
+!missing-protocol! NSFileProviderSearching not bound
+!missing-protocol! NSFileProviderSearchResult not bound
+!missing-selector! NSFileProviderDomain::setSupportsStringSearchRequest: not bound
+!missing-selector! NSFileProviderDomain::supportsStringSearchRequest not bound
+!missing-selector! NSFileProviderStringSearchRequest::query not bound
+!missing-type! NSFileProviderStringSearchRequest not bound
