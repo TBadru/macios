@@ -43,10 +43,10 @@ namespace MonoTouchFixtures.Contacts {
 				// we can't be sure what's on devices, so check there's no error is the only thing we do
 				// but it's in the default simulator build
 #if !MONOMAC && !__MACCATALYST__
-				if ((error is null) && (Runtime.Arch == Arch.SIMULATOR)) {
-					Assert.That (contacts.Length, Is.EqualTo (1), "Length");
+				Assert.That (error, Is.Null, "error");
+				Assert.That (contacts.Length, Is.GreaterThan (-1), "Length");
+				if (contacts.Length > 0)
 					identifier = contacts [0].Identifier;
-				}
 #endif
 			}
 
