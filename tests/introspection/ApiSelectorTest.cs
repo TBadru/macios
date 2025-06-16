@@ -1118,6 +1118,12 @@ namespace Introspection {
 					return !TestRuntime.CheckXcodeVersion (15, 0); // it's not in iOS 16, but maybe iOS 17?
 				}
 				break;
+			case "CPListImageRowItem":
+				switch (selectorName) {
+				case "imageTitles":
+					return TestRuntime.CheckXcodeVersion (26, 0); // https://github.com/rolfbjarne/apple-feedback/tree/main/FB18122430
+				}
+				break;
 			}
 
 			// old binding mistake
