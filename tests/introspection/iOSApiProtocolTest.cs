@@ -730,6 +730,15 @@ namespace Introspection {
 				case "CKSyncEnginePendingZoneDelete":
 				case "CKSyncEnginePendingZoneSave":
 					return true;
+				// Xcode 26 beta 1
+				case "SRAmbientLightSample": // conformance not in headers
+				case "SRDeletionRecord": // conformance not in headers
+				case "SRDeviceUsageReport":
+				case "SRKeyboardMetrics":
+				case "SRMessagesUsageReport":
+				case "SRPhoneUsageReport":
+				case "SRWristDetection":
+					return true;
 				}
 				break;
 			case "NSMutableCopying":
