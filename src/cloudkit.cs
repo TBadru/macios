@@ -1487,7 +1487,7 @@ namespace CloudKit {
 	[MacCatalyst (13, 1)]
 	[BaseType (typeof (NSObject))]
 	[DesignatedDefaultCtor]
-	interface CKOperationGroup : NSSecureCoding {
+	interface CKOperationGroup : NSSecureCoding, NSCopying {
 
 		[Export ("operationGroupID")]
 		string OperationGroupId { get; }
