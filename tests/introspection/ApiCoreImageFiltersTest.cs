@@ -76,6 +76,16 @@ namespace Introspection {
 				return true;
 			case "CIAreaAlphaWeightedHistogram": // not in Xcode 16 b1 or b2 headers.
 				return true;
+			// new filters in Xcode 26 beta 1: https://github.com/dotnet/macios/issues/23054
+			case "CIAreaAverageMaximumRed":
+			case "CIBlurredRoundedRectangleGenerator":
+			case "CIRoundedQRCodeGenerator":
+			case "CISignedDistanceGradientFromRedMask":
+			case "CISystemToneMap":
+				return true;
+			case "CIPersonSegmentation": // removed in Xcode 26 beta 1?
+			case "CISaliencyMapFilter": // removed in Xcode 26 beta 1?
+				return TestRuntime.CheckExactXcodeVersion (26, 0, 1);
 			}
 		}
 
