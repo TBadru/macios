@@ -1424,6 +1424,11 @@ PDFKIT_SOURCES = \
 	PdfKit/PdfAnnotation.cs \
 	PdfKit/PdfKit.cs \
 
+# Phase
+
+PHASE_SOURCES = \
+	Phase/PhaseConeDirectivityModelParameters.cs \
+
 # Photos
 
 PHOTOS_API_SOURCES = \
