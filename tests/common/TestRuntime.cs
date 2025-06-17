@@ -379,7 +379,7 @@ partial class TestRuntime {
 			Xcode = new { Major = 26, Minor = 0, Beta = 1 },
 			iOS = new { Major = 26, Minor = 0, Build = "23A5260l" },
 			tvOS = new { Major = 26, Minor = 0, Build = "23J5279m" },
-			macOS = new { Major = 26, Minor = 0, Build = "?" },
+			macOS = new { Major = 26, Minor = 0, Build = "25A5279m" },
 		};
 
 		var versions = new [] {
@@ -421,7 +421,7 @@ partial class TestRuntime {
 			if (!CheckExactmacOSSystemVersion (v.macOS.Major, v.macOS.Minor))
 				return false;
 			if (v.macOS.Build == "?")
-				throw new NotImplementedException ($"Build number for macOS {v.macOS.Major}.{v.macOS.Minor} beta {beta}.");
+				throw new NotImplementedException ($"Build number for macOS {v.macOS.Major}.{v.macOS.Minor} beta {beta} (must be contained within: {NSProcessInfo.ProcessInfo.OperatingSystemVersionString}).");
 			/*
 			 * I could be parsing the string but docs says it is not suitable for parsing and this is ugly enough so
 			 * an apology in advance (I'm very sorry =]) to my future self or whoever is dealing with this if it broke
