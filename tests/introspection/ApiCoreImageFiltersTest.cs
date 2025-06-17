@@ -457,6 +457,9 @@ namespace Introspection {
 						if (!key.StartsWith ("input", StringComparison.Ordinal))
 							key = "input" + Char.ToUpperInvariant (key [0]) + key.Substring (1);
 
+						var inputKeys = f.InputKeys;
+						Assert.That (inputKeys, Is.Not.Null, $"InputKeys for {t.FullName} is null");
+
 						if (Array.IndexOf (f.InputKeys, key) < 0) {
 							ReportError ($"{t.Name}: Property `{p.Name}` mapped to key `{key}` is not part of `InputKeys`.");
 							//GenerateBinding (f, Console.Out);
