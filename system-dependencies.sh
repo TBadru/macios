@@ -653,6 +653,9 @@ function check_xcode_components ()
 			ok "Successfully installed the Xcode component ${COLOR_BLUE}$comp${COLOR_CLEAR}."
 		fi
 	done
+
+	log "Clearing xcrun cache..."
+	xcrun -k
 }
 
 function check_mono () {

@@ -172,6 +172,7 @@ steps:
        set -e
        rm -rf ~/Library/Developer/Xcode/DerivedData/*
        rm -rf ~/Library/Caches/com.apple.dt.Xcode
+       xcrun -k
     displayName: 'Clear Xcode cache'
 
   - task: CodeQL3000Init@0
