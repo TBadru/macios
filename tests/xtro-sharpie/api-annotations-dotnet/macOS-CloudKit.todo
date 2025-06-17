@@ -1,7 +1,6 @@
 !missing-enum! CKRecordZoneEncryptionScope not bound
 !missing-enum-value! CKErrorCode native value CKErrorParticipantAlreadyInvited = 37 not bound
 !missing-enum-value! CKShareParticipantRole native value CKShareParticipantRoleAdministrator = 2 not bound
-!missing-protocol-conformance! CKOperationGroup should conform to NSCopying
 !missing-selector! +CKShareParticipant::oneTimeURLParticipant not bound
 !missing-selector! CKAllowedSharingOptions::allowsAccessRequests not bound
 !missing-selector! CKAllowedSharingOptions::allowsParticipantsToInviteOthers not bound
