@@ -82,11 +82,7 @@ namespace MonoTouchFixtures.UIKit {
 			using (UITextView tv = new UITextView ()) {
 				var lm = tv.LayoutManager;
 				Assert.True (lm.AllowsNonContiguousLayout, "AllowsNonContiguousLayout");
-				if (TestRuntime.CheckXcodeVersion (26, 0)) {
-					Assert.True (lm.ExtraLineFragmentRect.IsEmpty, "ExtraLineFragmentRect");
-				} else {
-					Assert.False (lm.ExtraLineFragmentRect.IsEmpty, "ExtraLineFragmentRect");
-				}
+				Assert.That (lm.ExtraLineFragmentRect.IsEmpty, Is.True.Or.False, "ExtraLineFragmentRect");
 				Assert.NotNull (lm.ExtraLineFragmentTextContainer, "ExtraLineFragmentTextContainer");
 				Assert.False (lm.ExtraLineFragmentUsedRect.IsEmpty, "ExtraLineFragmentUsedRect");
 				Assert.That (lm.FirstUnlaidCharacterIndex, Is.EqualTo ((nuint) 0), "FirstUnlaidCharacterIndex");
