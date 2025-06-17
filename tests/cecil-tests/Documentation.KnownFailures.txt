@@ -19149,10 +19149,12 @@ P:CoreImage.CIRoundedRectangleGenerator.Color
 P:CoreImage.CIRoundedRectangleGenerator.InputExtent
 P:CoreImage.CIRoundedRectangleGenerator.OutputImage
 P:CoreImage.CIRoundedRectangleGenerator.Radius
+P:CoreImage.CIRoundedRectangleGenerator.Smoothness
 P:CoreImage.CIRoundedRectangleStrokeGenerator.Color
 P:CoreImage.CIRoundedRectangleStrokeGenerator.InputExtent
 P:CoreImage.CIRoundedRectangleStrokeGenerator.OutputImage
 P:CoreImage.CIRoundedRectangleStrokeGenerator.Radius
+P:CoreImage.CIRoundedRectangleStrokeGenerator.Smoothness
 P:CoreImage.CIRoundedRectangleStrokeGenerator.Width
 P:CoreImage.CIRowAverage.InputExtent
 P:CoreImage.CIRowAverage.OutputImage
@@ -19397,9 +19399,11 @@ P:CoreImage.ICIQRCodeGeneratorProtocol.Message
 P:CoreImage.ICIRoundedRectangleGeneratorProtocol.Color
 P:CoreImage.ICIRoundedRectangleGeneratorProtocol.InputExtent
 P:CoreImage.ICIRoundedRectangleGeneratorProtocol.Radius
+P:CoreImage.ICIRoundedRectangleGeneratorProtocol.Smoothness
 P:CoreImage.ICIRoundedRectangleStrokeGeneratorProtocol.Color
 P:CoreImage.ICIRoundedRectangleStrokeGeneratorProtocol.InputExtent
 P:CoreImage.ICIRoundedRectangleStrokeGeneratorProtocol.Radius
+P:CoreImage.ICIRoundedRectangleStrokeGeneratorProtocol.Smoothness
 P:CoreImage.ICIRoundedRectangleStrokeGeneratorProtocol.Width
 P:CoreImage.ICISharpenLuminanceProtocol.Radius
 P:CoreImage.ICISixfoldReflectedTileProtocol.Angle
