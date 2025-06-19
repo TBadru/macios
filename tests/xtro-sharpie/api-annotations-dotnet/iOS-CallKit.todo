@@ -1,0 +1,12 @@
+!missing-enum! CXTranslationEngine not bound
+!missing-enum-value! CXErrorCodeIncomingCallError native value CXErrorCodeIncomingCallErrorFilteredBySensitiveParticipants = 7 not bound
+!missing-protocol-member! CXProviderDelegate::provider:performSetTranslatingCallAction: not found
+!missing-selector! CXProviderConfiguration::setSupportsAudioTranslation: not bound
+!missing-selector! CXProviderConfiguration::supportsAudioTranslation not bound
+!missing-selector! CXSetTranslatingCallAction::fulfillWithTranslationEngine: not bound
+!missing-selector! CXSetTranslatingCallAction::initWithCallUUID:isTranslating:localLocale:remoteLocale: not bound
+!missing-selector! CXSetTranslatingCallAction::initWithCoder: not bound
+!missing-selector! CXSetTranslatingCallAction::isTranslating not bound
+!missing-selector! CXSetTranslatingCallAction::localLocale not bound
+!missing-selector! CXSetTranslatingCallAction::remoteLocale not bound
+!missing-type! CXSetTranslatingCallAction not bound

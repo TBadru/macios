@@ -2003,9 +2003,15 @@ namespace CarPlay {
 		[Export ("updateImages:")]
 		void UpdateImages (UIImage [] gridImages);
 
-		[iOS (17, 4), MacCatalyst (17, 4)]
+		[iOS (17, 4)]
 		[Export ("imageTitles", ArgumentSemantic.Copy)]
-		string [] ImageTitles { get; set; }
+		string [] ImageTitles {
+			get;
+			// Apple removed the setter in Xcode 26 beta 1
+			[Obsoleted (PlatformName.iOS, 26, 0, "No longer supported.")]
+			[NoMacCatalyst]
+			set;
+		}
 
 		[NullAllowed, Export ("listImageRowHandler", ArgumentSemantic.Copy)]
 		CPListImageRowItemHandler ListImageRowHandler { get; set; }

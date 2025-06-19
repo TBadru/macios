@@ -375,6 +375,13 @@ partial class TestRuntime {
 			macOS = new { Major = 11, Minor = 0, Build = "20A5395" },
 		};
 
+		var twentysixb1 = new {
+			Xcode = new { Major = 26, Minor = 0, Beta = 1 },
+			iOS = new { Major = 26, Minor = 0, Build = "23A5260l" },
+			tvOS = new { Major = 26, Minor = 0, Build = "23J5279m" },
+			macOS = new { Major = 26, Minor = 0, Build = "25A5279m" },
+		};
+
 		var versions = new [] {
 			nineb1,
 			nineb2,
@@ -383,6 +390,7 @@ partial class TestRuntime {
 			elevenb6,
 			twelvedot2b2,
 			twelvedot2b3,
+			twentysixb1,
 		};
 
 		foreach (var v in versions) {
@@ -413,7 +421,7 @@ partial class TestRuntime {
 			if (!CheckExactmacOSSystemVersion (v.macOS.Major, v.macOS.Minor))
 				return false;
 			if (v.macOS.Build == "?")
-				throw new NotImplementedException ($"Build number for macOS {v.macOS.Major}.{v.macOS.Minor} beta {beta}.");
+				throw new NotImplementedException ($"Build number for macOS {v.macOS.Major}.{v.macOS.Minor} beta {beta} (must be contained within: {NSProcessInfo.ProcessInfo.OperatingSystemVersionString}).");
 			/*
 			 * I could be parsing the string but docs says it is not suitable for parsing and this is ugly enough so
 			 * an apology in advance (I'm very sorry =]) to my future self or whoever is dealing with this if it broke
@@ -434,6 +442,21 @@ partial class TestRuntime {
 	public static bool CheckXcodeVersion (int major, int minor, int build = 0)
 	{
 		switch (major) {
+		case 26:
+			switch (minor) {
+			case 0:
+#if __TVOS__
+				return ChecktvOSSystemVersion (26, 0);
+#elif __IOS__
+				return CheckiOSSystemVersion (26, 0);
+#elif MONOMAC
+				return CheckMacSystemVersion (26, 0);
+#else
+				throw new NotImplementedException ($"Missing platform case for Xcode {major}.{minor}");
+#endif
+			default:
+				throw new NotImplementedException ($"Missing version logic for checking for Xcode {major}.{minor}");
+			}
 		case 16:
 			switch (minor) {
 			case 0:
@@ -1333,6 +1356,9 @@ partial class TestRuntime {
 		// so just ignore these tests for now.
 		NUnit.Framework.Assert.Ignore ("Requires a hardened runtime entitlement: com.apple.security.device.microphone");
 #else
+		if (CheckExactXcodeVersion (26, 0, beta: 1))
+			NUnit.Framework.Assert.Ignore ("AVAudioApplication.RecordPermission crashes. FB18023766");
+
 		if (!CheckXcodeVersion (6, 0))
 			return; // The API to check/request permission isn't available in earlier versions, the dialog will just pop up.
 
