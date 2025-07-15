@@ -1133,6 +1133,7 @@ namespace Introspection {
 				case "startAndReturnError:": // incorrect binding
 					return TestRuntime.CheckXcodeVersion (26, 0);
 				}
+				break;
 			case "NSDate":
 				switch (selectorName) {
 				case "dateWithSRAbsoluteTime:": // This is from a category defined in SensorKit, and SensorKit doesn't exist on iPads
