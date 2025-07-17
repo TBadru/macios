@@ -378,7 +378,7 @@ namespace NS {
 			yield return [
 				singleArgNoError,
 				@"(_cbvalue) => {
-	_tcs.SetResult (new (_cbvalue));
+	_tcs.SetResult (_cbvalue);
 }",
 			];
 
@@ -402,7 +402,7 @@ namespace NS {
 	if (_cberror is not null)
 		_tcs.SetException (new global::Foundation.NSErrorException (_cberror));
 	else
-		_tcs.SetResult (new (_cbvalue));
+		_tcs.SetResult (_cbvalue);
 }",
 			];
 
