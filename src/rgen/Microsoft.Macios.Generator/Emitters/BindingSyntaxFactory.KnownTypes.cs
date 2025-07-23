@@ -167,6 +167,20 @@ static partial class BindingSyntaxFactory {
 		@namespace: ["Foundation"],
 		@class: "NSErrorException");
 
+	/// <summary>
+	/// TypeSyntax for Foundation.NSDictionary.
+	/// </summary>
+	public static readonly TypeSyntax NSDictionary = StringExtensions.GetIdentifierName (
+		@namespace: ["Foundation"],
+		@class: "NSDictionary");
+
+	/// <summary>
+	/// TypeSyntax for Foundation.NSMutableDictionary.
+	/// </summary>
+	public static readonly TypeSyntax NSMutableDictionary = StringExtensions.GetIdentifierName (
+		@namespace: ["Foundation"],
+		@class: "NSMutableDictionary");
+
 	// CoreMedia types
 
 	/// <summary>
