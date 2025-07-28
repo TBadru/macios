@@ -117,4 +117,32 @@ static class TabbedStringBuilderExtensions {
 		self.WriteLine ($"[param: BlockProxy (typeof ({Trampolines}.{nativeInvoker}))]");
 		return self;
 	}
+
+	/// <summary>
+	/// Appends a `[Preserve]` attribute to the current writer.
+	/// </summary>
+	/// <param name="self">A tabbed string writer.</param>
+	/// <param name="conditional">A value indicating whether the preservation is conditional.</param>
+	/// <returns>The current writer.</returns>
+	public static TabbedWriter<StringWriter> AppendPreserveAttribute (this TabbedWriter<StringWriter> self,
+		bool conditional = true)
+	{
+		self.WriteLine ($"[Preserve (Conditional = {conditional.ToString ().ToLower ()})]");
+		return self;
+	}
+
+	/// <summary>
+	/// Appends a `[DynamicDependency]` attribute to the current writer.
+	/// This attribute is used to indicate that a member has a dynamic dependency on another member.
+	/// </summary>
+	/// <param name="self">A tabbed string writer.</param>
+	/// <param name="member">The member that is dynamically depended upon.</param>
+	/// <returns>The current writer.</returns>
+	public static TabbedWriter<StringWriter> AppendDynamicDependencyAttribute (this TabbedWriter<StringWriter> self,
+		string member)
+	{
+
+		self.WriteLine ($"[DynamicDependency ({member})]");
+		return self;
+	}
 }
