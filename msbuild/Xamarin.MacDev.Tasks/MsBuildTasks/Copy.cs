@@ -13,7 +13,7 @@ namespace Microsoft.Build.Tasks {
 		public override bool Execute ()
 		{
 			if (SourceFiles?.Any () != true) {
-				Log.LogMessage (MessageImportance.Low, MSBStrings.M7159 /* Skipping {0} - {1} is empty. */, nameof(Copy), nameof(SourceFiles));
+				Log.LogMessage (MessageImportance.Low, MSBStrings.M7159 /* Skipping {0} - {1} is empty. */, nameof (Copy), nameof (SourceFiles));
 				return true;
 			}
 
