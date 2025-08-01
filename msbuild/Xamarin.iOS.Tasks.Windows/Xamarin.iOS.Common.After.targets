@@ -306,7 +306,7 @@ Copyright (C) 2011-2013 Xamarin. All rights reserved.
 		destination doesn't exist, the source is newer than the destination, or if the source and
 		destination differ by file size.
 		-->
-		<Copy Condition="'$(IsMacEnabled)' == 'true' And '@(_ResolvedFileToPublishAlways)' != ''"
+		<Copy Condition="'$(IsMacEnabled)' == 'true'"
 			SessionId="$(BuildSessionId)"
 			SourceFiles = "@(_ResolvedFileToPublishAlways)"
 			DestinationFiles="@(_ResolvedFileToPublishAlways->'$(PublishDir)%(RelativePath)')"
