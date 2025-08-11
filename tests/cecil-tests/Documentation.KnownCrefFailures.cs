@@ -564,6 +564,8 @@ namespace Cecil.Tests {
 			"T:AudioToolbox.AudioSessionErrors: Invalid cref '!:AudioToolbox.AudioSessionException.ErrorCode'",
 			"T:AudioToolbox.AudioSessionInterruptionType: Invalid cref '!:AudioToolbox.AudioSession.InterruptionType'",
 			"T:AudioToolbox.AudioSessionMode: Invalid cref '!:AudioToolbox.AudioSession.Category'",
+			"T:AudioToolbox.AUAudioMixParameter: Invalid cref '!:AudioUnitSubType.AUAudioMix'",
+			"T:AudioToolbox.AUAudioMixProperty: Invalid cref '!:AudioUnitSubType.AUAudioMix'",
 			"T:AudioUnit.AUAudioUnitBusArray: Invalid cref '!:AudioUnit.AUAudioUnitBus'",
 			"T:AudioUnit.AudioComponentInstantiationOptions: Invalid cref '!:AudioUnit.AUAudioUnit'",
 			"T:AudioUnit.AudioComponentStatus: Invalid cref '!:AudioUnit.AudioUnit.AudioOutputUnitPublish(AudioUnit.AudioComponentDescription,System.String,System.UInt32)'",
