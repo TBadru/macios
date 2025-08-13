@@ -303,6 +303,7 @@ partial class Frameworks {
 		"AuthenticationServices",
 		"AVFoundation",
 		"AVKit",
+		"AVRouting",
 		"BackgroundAssets",
 		"BackgroundTasks",
 		"BrowserEngineKit",
