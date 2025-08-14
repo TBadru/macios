@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -52,26 +51,23 @@ class EventTypeEmitter (
 		builder.WriteLine ($"namespace {eventInfo.Namespace};");
 		builder.WriteLine ();
 
-		var argsClassName = eventInfo.EventArgsType.EndsWith ("EventArgs", StringComparison.Ordinal)
-			? eventInfo.EventArgsType
-			: $"{eventInfo.EventArgsType}EventArgs";
-
+		var argsClassName = eventInfo.EventArgsType;
 		using (var classBlock =
 			   builder.CreateBlock ($"public partial class {argsClassName}", true)) {
 
 			// emit a property per parameter
-			foreach (var (name, type) in eventInfo.MethodParameters) {
+			foreach (var (name, type) in eventInfo.EventArgParameters) {
 				classBlock.WriteLine ($"public {type} {name.Capitalize ()} {{ get; set; }}");
 				classBlock.WriteLine ();
 			}
 
 			// emit a constructor that takes all parameters
 			using (var constructorBlock = classBlock.CreateBlock (
-					   $"public {argsClassName} ({string.Join (", ", eventInfo.MethodParameters.Select (p => $"{p.Type} {p.Name}"))})",
+					   $"public {argsClassName} ({string.Join (", ", eventInfo.EventArgParameters.Select (p => $"{p.Type} {p.Name}"))})",
 					   true)) {
 
 				// for each parameter, assign it to the property
-				foreach (var (name, type) in eventInfo.MethodParameters) {
+				foreach (var (name, type) in eventInfo.EventArgParameters) {
 					constructorBlock.WriteLine ($"this.{name.Capitalize ()} = {name};");
 				}
 			}
