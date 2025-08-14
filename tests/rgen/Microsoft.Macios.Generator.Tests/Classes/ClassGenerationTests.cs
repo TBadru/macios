@@ -93,24 +93,28 @@ public class ClassGenerationTests : BaseGeneratorTestClass {
 			{
 				ExtraFiles = new () {
 					{"NSArchiveReplace.g.cs", "ExpectedNSArchiveReplace.cs"},
+					{"EventTests_RgenNSKeyedArchiverDelegate.g.cs", "ExpectedEventTests_RgenNSKeyedArchiverDelegate.cs"}
 				}
 			},
 			new (ApplePlatform.TVOS, "EventTests", "EventTests.cs", "ExpectedEventTests.cs")
 			{
 				ExtraFiles = new () {
 					{"NSArchiveReplace.g.cs", "ExpectedNSArchiveReplace.cs"},
+					{"EventTests_RgenNSKeyedArchiverDelegate.g.cs", "ExpectedEventTests_RgenNSKeyedArchiverDelegate.cs"}
 				}
 			},
 			new (ApplePlatform.MacCatalyst, "EventTests", "EventTests.cs", "ExpectedEventTests.cs")
 			{
 				ExtraFiles = new () {
 					{"NSArchiveReplace.g.cs", "ExpectedNSArchiveReplace.cs"},
+					{"EventTests_RgenNSKeyedArchiverDelegate.g.cs", "ExpectedEventTests_RgenNSKeyedArchiverDelegate.cs"}
 				}
 			},
 			new (ApplePlatform.MacOSX, "EventTests", "EventTests.cs", "ExpectedEventTests.cs")
 			{
 				ExtraFiles = new () {
 					{"NSArchiveReplace.g.cs", "ExpectedNSArchiveReplace.cs"},
+					{"EventTests_RgenNSKeyedArchiverDelegate.g.cs", "ExpectedEventTests_RgenNSKeyedArchiverDelegate.cs"}
 				}
 			},
 		};
