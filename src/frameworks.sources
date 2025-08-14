@@ -2009,6 +2009,7 @@ MACOS_FRAMEWORKS =          \
 	FSKit                   \
 	GameController          \
 	GameplayKit             \
+	GameSave                \
 	GLKit                   \
 	HealthKit               \
 	ImageIO                 \
@@ -2130,6 +2131,7 @@ IOS_FRAMEWORKS =         \
 	GLKit \
 	GameController \
 	GameplayKit \
+	GameSave \
 	HealthKit \
 	HealthKitUI \
 	HomeKit \
@@ -2308,6 +2310,7 @@ MACCATALYST_FRAMEWORKS = \
 	FileProvider \
 	GameController \
 	GameplayKit \
+	GameSave \
 	HealthKit \
 	HealthKitUI \
 	HomeKit \
