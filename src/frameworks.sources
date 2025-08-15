@@ -1940,6 +1940,7 @@ COMMON_FRAMEWORKS =         \
 	Accelerate              \
 	AuthenticationServices	\
 	AVFoundation            \
+	Cinematic               \
 	CoreBluetooth           \
 	CoreData                \
 	CoreFoundation          \
@@ -1981,7 +1982,6 @@ MACOS_FRAMEWORKS =          \
 	BrowserEngineKit        \
 	CallKit \
 	CFNetwork               \
-	Cinematic              \
 	ClassKit                \
 	CloudKit                \
 	Contacts                \
@@ -2104,7 +2104,6 @@ IOS_FRAMEWORKS =         \
 	CallKit \
 	CarPlay \
 	CFNetwork \
-	Cinematic \
 	ClassKit \
 	CloudKit \
 	Contacts \
@@ -2213,7 +2212,6 @@ TVOS_FRAMEWORKS =           \
 	BackgroundTasks         \
 	BrowserEngineKit        \
 	CFNetwork               \
-	Cinematic              \
 	CloudKit                \
 	CoreAnimation           \
 	CoreGraphics            \

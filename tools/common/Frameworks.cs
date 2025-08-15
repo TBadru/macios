@@ -614,6 +614,7 @@ public class Frameworks : Dictionary<string, Framework> {
 			var v14_2 = new Version (14, 2);
 			var v16_1 = new Version (16, 1);
 			var v18_0 = new Version (18, 0);
+			var v26_0 = new Version (26, 0);
 			foreach (var f in catalyst_frameworks.Values) {
 				switch (f.Name) {
 				// These frameworks were added to Catalyst after they were added to iOS, so we have to adjust the Versions fields
@@ -632,7 +633,9 @@ public class Frameworks : Dictionary<string, Framework> {
 				case "ThreadNetwork":
 					f.Version = v16_1;
 					break;
-				// These frameworks are not available on Mac Catalyst
+				case "Cinematic":
+					f.Version = v26_0;
+					break;
 				case "BrowserEngineKit":
 				case "DeviceDiscoveryExtension":
 					f.Version = v18_0;
@@ -655,7 +658,6 @@ public class Frameworks : Dictionary<string, Framework> {
 				case "ARKit":
 				case "AssetsLibrary":
 				case "CarPlay":
-				case "Cinematic":
 				case "WatchConnectivity":
 					f.Unavailable = true;
 					break;
