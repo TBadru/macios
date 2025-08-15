@@ -477,7 +477,9 @@ public class Frameworks : Dictionary<string, Framework> {
 				{ "SecurityUI", "SecurityUI", 18, 4 },
 
 				{ "DeviceDiscoveryUI", "DeviceDiscoveryUI", 26, 0 },
+				{ "ExtensionKit", "ExtensionKit", 26, 0 },
 				{ "GameSave", "GameSave", 26, 0 },
+
 				// the above MUST be kept in sync with simlauncher
 				// see tools/mtouch/Makefile
 				// please also keep it sorted to ease comparison

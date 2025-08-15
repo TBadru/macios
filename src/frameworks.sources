@@ -2124,6 +2124,7 @@ IOS_FRAMEWORKS =         \
 	DeviceDiscoveryUI \
 	EventKit \
 	EventKitUI \
+	ExtensionKit \
 	ExternalAccessory \
 	FileProvider \
 	FileProviderUI \
@@ -2304,6 +2305,7 @@ MACCATALYST_FRAMEWORKS = \
 	EventKit \
 	EventKitUI \
 	ExecutionPolicy \
+	ExtensionKit \
 	ExternalAccessory \
 	FileProvider \
 	GameController \
