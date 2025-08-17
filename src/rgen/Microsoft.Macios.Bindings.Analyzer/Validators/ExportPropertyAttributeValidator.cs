@@ -4,6 +4,7 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.Macios.Generator.Attributes;
+using Microsoft.Macios.Generator.Context;
 using ObjCBindings;
 
 namespace Microsoft.Macios.Bindings.Analyzer.Validators;
@@ -47,10 +48,11 @@ class ExportPropertyAttributeValidator : Validator<ExportData<Property>> {
 	/// Validates that the selector is not null.
 	/// </summary>
 	/// <param name="selector">The data to validate.</param>
+	/// <param name="context">The root context for validation.</param>
 	/// <param name="diagnostics">When this method returns, contains an array of diagnostics if the data is invalid; otherwise, an empty array.</param>
 	/// <param name="location">The code location to be used for the diagnostics.</param>
 	/// <returns><c>true</c> if the data is valid; otherwise, <c>false</c>.</returns>
-	internal static bool SelectorIsNotNull (string? selector, out ImmutableArray<Diagnostic> diagnostics,
+	internal static bool SelectorIsNotNull (string? selector, RootContext context, out ImmutableArray<Diagnostic> diagnostics,
 		Location? location = null)
 		=> StringStrategies.IsNotNull (
 			selector: selector,
@@ -62,10 +64,11 @@ class ExportPropertyAttributeValidator : Validator<ExportData<Property>> {
 	/// Validates that the selector does not contain any whitespace.
 	/// </summary>
 	/// <param name="selector">The data to validate.</param>
+	/// <param name="context">The root context for validation.</param>
 	/// <param name="diagnostics">When this method returns, contains an array of diagnostics if the data is invalid; otherwise, an empty array.</param>
 	/// <param name="location">The code location to be used for the diagnostics.</param>
 	/// <returns><c>true</c> if the data is valid; otherwise, <c>false</c>.</returns>
-	internal static bool SelectorHasNoWhitespace (string? selector, out ImmutableArray<Diagnostic> diagnostics,
+	internal static bool SelectorHasNoWhitespace (string? selector, RootContext context, out ImmutableArray<Diagnostic> diagnostics,
 		Location? location = null)
 		=> StringStrategies.HasNoWhitespace (
 			stringValue: selector,
@@ -77,7 +80,7 @@ class ExportPropertyAttributeValidator : Validator<ExportData<Property>> {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ExportPropertyAttributeValidator"/> class.
 	/// </summary>
-	public ExportPropertyAttributeValidator ()
+	public ExportPropertyAttributeValidator () : base (d=> d.Location)
 	{
 		// add the default rules for this validator
 		AddStrategy (d => d.Selector, RBI0018, SelectorIsNotNull);
@@ -87,7 +90,7 @@ class ExportPropertyAttributeValidator : Validator<ExportData<Property>> {
 		AddStrategy (
 			selector: d => d.NativePrefix,
 			descriptor: StringStrategies.RBI0024,
-			validation: (string? data, out ImmutableArray<Diagnostic> diagnostics, Location? location)
+			validation: (string? data, RootContext _, out ImmutableArray<Diagnostic> diagnostics, Location? location)
 				=> StringStrategies.NativeNameHasNoWhitespace (
 					data,
 					nameof (ExportData<Property>.NativePrefix),
@@ -98,7 +101,7 @@ class ExportPropertyAttributeValidator : Validator<ExportData<Property>> {
 		AddStrategy (
 			selector: d => d.NativeSuffix,
 			descriptor: StringStrategies.RBI0024,
-			validation: (string? data, out ImmutableArray<Diagnostic> diagnostics, Location? location)
+			validation: (string? data, RootContext _, out ImmutableArray<Diagnostic> diagnostics, Location? location)
 				=> StringStrategies.NativeNameHasNoWhitespace (
 					data,
 					nameof (ExportData<Property>.NativeSuffix),

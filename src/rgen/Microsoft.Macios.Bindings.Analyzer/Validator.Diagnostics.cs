@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Microsoft.Macios.Bindings.Analyzer;
 
-public partial class Validator<T> {
+partial class Validator<T> {
 
 	/// <summary>
 	/// Diagnostic descriptor for fields that are required when certain flags are present.
