@@ -94,12 +94,14 @@ public partial class Validator<T> : IValidator {
 	/// <param name="selector">An expression to select the field to validate.</param>
 	/// <param name="descriptor">The diagnostic descriptors to use if validation fails.</param>
 	/// <param name="validation">The validation logic.</param>
+	/// <param name="propertyName">The field name under test. If not present it will be deduced from the selector.</param>
 	public void AddStrategy<TField> (
 		Expression<Func<T, TField>> selector,
 		ImmutableArray<DiagnosticDescriptor> descriptor,
-		LambdaFieldValidationStrategy<T, TField>.ValidationFunc validation)
+		LambdaFieldValidationStrategy<T, TField>.ValidationFunc validation,
+		string? propertyName = null)
 	{
-		var fieldName = GetPropertyName (selector);
+		var fieldName = propertyName ?? GetPropertyName (selector);
 
 		if (!strategies.ContainsKey (fieldName))
 			strategies [fieldName] = new List<IFieldValidationStrategy> ();
@@ -114,11 +116,13 @@ public partial class Validator<T> : IValidator {
 	/// <param name="selector">An expression to select the field to validate.</param>
 	/// <param name="descriptor">The diagnostic descriptor to use if validation fails.</param>
 	/// <param name="validation">The validation logic.</param>
+	/// <param name="propertyName">The field name under test. If not present it will be deduced from the selector.</param>
 	public void AddStrategy<TField> (
 		Expression<Func<T, TField>> selector,
 		DiagnosticDescriptor descriptor,
-		LambdaFieldValidationStrategy<T, TField>.ValidationFunc validation)
-		=> AddStrategy (selector, [descriptor], validation);
+		LambdaFieldValidationStrategy<T, TField>.ValidationFunc validation,
+		string? propertyName = null)
+		=> AddStrategy (selector, [descriptor], validation, propertyName);
 
 	/// <summary>
 	/// Adds a validation strategy for a specific nullable struct field.
@@ -127,12 +131,14 @@ public partial class Validator<T> : IValidator {
 	/// <param name="selector">An expression to select the nullable struct field to validate.</param>
 	/// <param name="descriptor">The diagnostic descriptors to use if validation fails.</param>
 	/// <param name="validation">The validation logic.</param>
+	/// <param name="propertyName">The field name under test. If not present it will be deduced from the selector.</param>
 	public void AddStrategy<TField> (
 		Expression<Func<T, TField?>> selector,
 		ImmutableArray<DiagnosticDescriptor> descriptor,
-		LambdaFieldValidationStrategy<T, TField?>.ValidationFunc validation) where TField : struct
+		LambdaFieldValidationStrategy<T, TField?>.ValidationFunc validation,
+		string? propertyName = null) where TField : struct
 	{
-		var fieldName = GetPropertyName (selector);
+		var fieldName = propertyName ?? GetPropertyName (selector);
 
 		if (!strategies.ContainsKey (fieldName))
 			strategies [fieldName] = new List<IFieldValidationStrategy> ();
@@ -147,11 +153,13 @@ public partial class Validator<T> : IValidator {
 	/// <param name="selector">An expression to select the nullable struct field to validate.</param>
 	/// <param name="descriptor">The diagnostic descriptor to use if validation fails.</param>
 	/// <param name="validation">The validation logic.</param>
+	/// <param name="propertyName">The field name under test. If not present it will be deduced from the selector.</param>
 	public void AddStrategy<TField> (
 		Expression<Func<T, TField?>> selector,
 		DiagnosticDescriptor descriptor,
-		LambdaFieldValidationStrategy<T, TField?>.ValidationFunc validation) where TField : struct
-		=> AddStrategy (selector, [descriptor], validation);
+		LambdaFieldValidationStrategy<T, TField?>.ValidationFunc validation,
+		string? propertyName = null) where TField : struct
+		=> AddStrategy (selector, [descriptor], validation, propertyName);
 
 	/// <summary>
 	/// Adds a validation strategy for a specific field.
@@ -612,28 +620,31 @@ public partial class Validator<T> : IValidator {
 	/// </summary>
 	/// <typeparam name="TField">The type of the field to validate.</typeparam>
 	/// <typeparam name="TFlag">The type of the enum flag.</typeparam>
-	/// <typeparam name="TExpectedFlag">The expected flag type that allows the field to be set.</typeparam>
 	/// <param name="selector">An expression to select the field to validate.</param>
 	/// <param name="flagSelector">An expression to select the enum field.</param>
-	public void RestrictToFlagType<TField, TFlag, TExpectedFlag> (
+	/// <param name="expectedFlagType">The expected flag type that allows the field to be set.</param>
+	public void RestrictToFlagType<TField, TFlag> (
 		Expression<Func<T, TField?>> selector,
-		Expression<Func<T, TFlag>> flagSelector)
+		Expression<Func<T, TFlag>> flagSelector,
+		Type expectedFlagType)
 		where TFlag : Enum
-		where TExpectedFlag : Enum
 	{
-		AddStrategy (selector, RBI0017, CheckFlagType);
+		Expression<Func<T, (TField? FieldData, TFlag FlagData)>> tupleSelector =
+			y => new (selector.Compile () (y), flagSelector.Compile () (y));
 
-		bool CheckFlagType (TField? data, out ImmutableArray<Diagnostic> diagnostics, Location? location = null)
+		AddStrategy (tupleSelector, RBI0017, CheckFlagType, GetPropertyName (selector));
+
+		bool CheckFlagType ((TField? FieldData, TFlag FlagData) data, out ImmutableArray<Diagnostic> diagnostics, Location? location = null)
 		{
 			diagnostics = [];
+			var fieldValue = data.FieldData;
 
 			// If field is null, validation passes
-			if (data is null)
+			if (fieldValue is null)
 				return true;
 
 			// Check if the flag type matches the expected type
 			var flagType = typeof (TFlag);
-			var expectedFlagType = typeof (TExpectedFlag);
 			var valid = flagType == expectedFlagType;
 
 			if (!valid) {
@@ -658,31 +669,86 @@ public partial class Validator<T> : IValidator {
 	/// </summary>
 	/// <typeparam name="TField">The type of the struct field to validate.</typeparam>
 	/// <typeparam name="TFlag">The type of the enum flag.</typeparam>
-	/// <typeparam name="TExpectedFlag">The expected flag type that allows the field to be set.</typeparam>
 	/// <param name="selector">An expression to select the nullable struct field to validate.</param>
 	/// <param name="flagSelector">An expression to select the enum field.</param>
-	public void RestrictToFlagType<TField, TFlag, TExpectedFlag> (
+	/// <param name="expectedFlagType">The expected flag type that allows the field to be set.</param>
+	public void RestrictToFlagType<TField, TFlag> (
 		Expression<Func<T, TField?>> selector,
-		Expression<Func<T, TFlag>> flagSelector)
+		Expression<Func<T, TFlag>> flagSelector,
+		Type expectedFlagType)
 		where TField : struct
 		where TFlag : Enum
-		where TExpectedFlag : Enum
 	{
-		var selectorCompiled = selector.Compile ();
 
-		AddStrategy (selector, RBI0017, CheckFlagType);
+		Expression<Func<T, (TField? FieldData, TFlag FlagData)>> tupleSelector =
+			y => new (selector.Compile () (y), flagSelector.Compile () (y));
 
-		bool CheckFlagType (TField? data, out ImmutableArray<Diagnostic> diagnostics, Location? location = null)
+		AddStrategy (tupleSelector, RBI0017, CheckFlagType, GetPropertyName (selector));
+
+		bool CheckFlagType ((TField? FieldData, TFlag FlagData) data, out ImmutableArray<Diagnostic> diagnostics, Location? location = null)
 		{
 			diagnostics = [];
+			var fieldValue = data.FieldData;
 
 			// If field is null, validation passes
-			if (data is null)
+			if (fieldValue is null)
 				return true;
 
 			// Check if the flag type matches the expected type
 			var flagType = typeof (TFlag);
-			var expectedFlagType = typeof (TExpectedFlag);
+			var valid = flagType == expectedFlagType;
+
+			if (!valid) {
+				diagnostics = [
+					Diagnostic.Create (
+						descriptor: RBI0017,
+						location: location,
+						messageArgs: [
+							GetPropertyName (selector),
+							expectedFlagType.Name,
+							flagType.Name
+						])
+				];
+			}
+
+			return valid;
+		}
+	}
+
+	/// <summary>
+	/// Adds a validation rule that restricts a non-nullable struct field to only be set when the flag is of a specific type.
+	/// Uses a lambda to determine if the struct is in its default state.
+	/// </summary>
+	/// <typeparam name="TField">The type of the struct field to validate.</typeparam>
+	/// <typeparam name="TFlag">The type of the enum flag.</typeparam>
+	/// <param name="selector">An expression to select the struct field to validate.</param>
+	/// <param name="flagSelector">An expression to select the enum field.</param>
+	/// <param name="isDefaultValue">A function that returns true if the struct field is in its default state.</param>
+	/// <param name="expectedFlagType">The expected flag type that allows the field to be set.</param>
+	public void RestrictToFlagType<TField, TFlag> (
+		Expression<Func<T, TField>> selector,
+		Expression<Func<T, TFlag>> flagSelector,
+		Func<TField, bool> isDefaultValue,
+		Type expectedFlagType)
+		where TField : struct
+		where TFlag : Enum
+	{
+		Expression<Func<T, (TField FieldData, TFlag FlagData)>> tupleSelector =
+			y => new (selector.Compile () (y), flagSelector.Compile () (y));
+
+		AddStrategy (tupleSelector, RBI0017, CheckFlagType, GetPropertyName (selector));
+
+		bool CheckFlagType ((TField FieldData, TFlag FlagData) data, out ImmutableArray<Diagnostic> diagnostics, Location? location = null)
+		{
+			diagnostics = [];
+			var fieldValue = data.FieldData;
+
+			// If field is in default state, validation passes
+			if (isDefaultValue (fieldValue))
+				return true;
+
+			// Check if the flag type matches the expected type
+			var flagType = typeof (TFlag);
 			var valid = flagType == expectedFlagType;
 
 			if (!valid) {
