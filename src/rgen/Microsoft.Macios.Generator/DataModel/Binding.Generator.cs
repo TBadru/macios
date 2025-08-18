@@ -305,19 +305,31 @@ readonly partial struct Binding {
 
 			var fieldData = enumValueSymbol.GetFieldData ();
 			// try and compute the library for this enum member
-			if (fieldData is null || !context.TryComputeLibraryName (fieldData.Value.LibraryName, Namespace [^1],
-					out string? libraryName, out string? libraryPath))
-				// could not calculate the library for the enum, do not add it
-				continue;
-			var enumMember = new EnumMember (
-				name: enumValueDeclaration.Identifier.ToFullString ().Trim (),
-				libraryName: libraryName,
-				libraryPath: libraryPath,
-				fieldData: enumValueSymbol.GetFieldData (),
-				symbolAvailability: enumValueSymbol.GetSupportedPlatforms (),
-				attributes: enumValueDeclaration.GetAttributeCodeChanges (context.SemanticModel)
-			);
-			bucket.Add (enumMember);
+			if (fieldData is null || !context.TryComputeLibraryName (fieldData.Value.LibraryPath, Namespace [^1],
+					out string? libraryName, out string? libraryPath)) {
+				// could not calculate the library for the enum add it with bad data for the analyzer to pick it up
+				var enumMember = new EnumMember (
+					name: enumValueDeclaration.Identifier.ToFullString ().Trim (),
+					libraryName: string.Empty,
+					libraryPath: null,
+					fieldData: enumValueSymbol.GetFieldData (),
+					symbolAvailability: enumValueSymbol.GetSupportedPlatforms (),
+					attributes: enumValueDeclaration.GetAttributeCodeChanges (context.SemanticModel)
+				) {
+					Location = enumValueDeclaration.GetLocation (),
+				};
+				bucket.Add (enumMember);
+			} else {
+				var enumMember = new EnumMember (
+					name: enumValueDeclaration.Identifier.ToFullString ().Trim (),
+					libraryName: libraryName,
+					libraryPath: libraryPath,
+					fieldData: enumValueSymbol.GetFieldData (),
+					symbolAvailability: enumValueSymbol.GetSupportedPlatforms (),
+					attributes: enumValueDeclaration.GetAttributeCodeChanges (context.SemanticModel)
+				) { Location = enumValueDeclaration.GetLocation (), };
+				bucket.Add (enumMember);
+			}
 		}
 
 		EnumMembers = bucket.ToImmutable ();

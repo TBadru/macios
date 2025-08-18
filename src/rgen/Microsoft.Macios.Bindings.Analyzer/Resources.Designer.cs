@@ -283,7 +283,7 @@ namespace Microsoft.Macios.Bindings.Analyzer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The enum value &apos;{0}&apos; must be tagged with a Field&lt;EnumValue&gt; attribute.
+        ///   Looks up a localized string similar to The enum &apos;{0}&apos; must have at least one member tagged with a Field&lt;EnumValue&gt; attribute.
         /// </summary>
         internal static string RBI0008MessageFormat {
             get {
@@ -292,7 +292,7 @@ namespace Microsoft.Macios.Bindings.Analyzer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Smart enum values must be tagged with an Field&lt;EnumValue&gt; attribute.
+        ///   Looks up a localized string similar to Smart enum values must have a value tagged with an Field&lt;EnumValue&gt; attribute.
         /// </summary>
         internal static string RBI0008Title {
             get {
@@ -783,6 +783,33 @@ namespace Microsoft.Macios.Bindings.Analyzer {
         internal static string RBI0026Title {
             get {
                 return ResourceManager.GetString("RBI0026Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The symbol is accessible in a platform where it is not supported...
+        /// </summary>
+        internal static string RBI0027Description {
+            get {
+                return ResourceManager.GetString("RBI0027Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The symbol &apos;{0}&apos; is accessible on platform &apos;{1}&apos; when it was marked otherwise.
+        /// </summary>
+        internal static string RBI0027MessageFormat {
+            get {
+                return ResourceManager.GetString("RBI0027MessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad method name.
+        /// </summary>
+        internal static string RBI0027Title {
+            get {
+                return ResourceManager.GetString("RBI0027Title", resourceCulture);
             }
         }
     }
