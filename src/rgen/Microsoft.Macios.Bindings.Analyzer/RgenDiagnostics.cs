@@ -406,4 +406,19 @@ public static class RgenDiagnostics {
 		description: new LocalizableResourceString (nameof (Resources.RBI0026Description), Resources.ResourceManager,
 			typeof (Resources))
 	);
+
+	/// <summary>
+	/// Diagnostic descriptor for when an symbol can be reached in an unsupported platform.
+	/// </summary>
+	internal static readonly DiagnosticDescriptor RBI0027 = new (
+		"RBI0027",
+		new LocalizableResourceString (nameof (Resources.RBI0027Title), Resources.ResourceManager, typeof (Resources)),
+		new LocalizableResourceString (nameof (Resources.RBI0027MessageFormat), Resources.ResourceManager,
+			typeof (Resources)),
+		"Usage",
+		DiagnosticSeverity.Error,
+		isEnabledByDefault: true,
+		description: new LocalizableResourceString (nameof (Resources.RBI0027Description), Resources.ResourceManager,
+			typeof (Resources))
+	);
 }
