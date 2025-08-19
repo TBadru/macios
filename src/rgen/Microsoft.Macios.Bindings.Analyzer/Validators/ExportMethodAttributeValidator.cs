@@ -4,6 +4,7 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.Macios.Generator.Attributes;
+using Microsoft.Macios.Generator.Context;
 using ObjCBindings;
 using TypeInfo = Microsoft.Macios.Generator.DataModel.TypeInfo;
 
@@ -158,10 +159,11 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 	/// Validates that the ResultTypeName field is only used with the Async flag.
 	/// </summary>
 	/// <param name="exportData">The export data to validate.</param>
+	/// <param name="context">The root context for validation.</param>
 	/// <param name="diagnostics">When this method returns, contains an array of diagnostics if the data is invalid; otherwise, an empty array.</param>
 	/// <param name="location">The code location to be used for the diagnostics.</param>
 	/// <returns><c>true</c> if the data is valid; otherwise, <c>false</c>.</returns>
-	internal static bool ResultTypeNameIsAllowed (ExportMethod exportData, out ImmutableArray<Diagnostic> diagnostics,
+	internal static bool ResultTypeNameIsAllowed (ExportMethod exportData, RootContext context, out ImmutableArray<Diagnostic> diagnostics,
 		Location? location = null)
 		=> StringFieldIsAllowed (
 			fieldName: nameof (exportData.ResultTypeName),
@@ -176,10 +178,11 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 	/// Validates that the ResultType field is only used with the Async flag.
 	/// </summary>
 	/// <param name="exportData">The export data to validate.</param>
+	/// <param name="context">The root context for validation.</param>
 	/// <param name="diagnostics">When this method returns, contains an array of diagnostics if the data is invalid; otherwise, an empty array.</param>
 	/// <param name="location">The code location to be used for the diagnostics.</param>
 	/// <returns><c>true</c> if the data is valid; otherwise, <c>false</c>.</returns>
-	internal static bool ResultTypeIsAllowed (ExportMethod exportData, out ImmutableArray<Diagnostic> diagnostics,
+	internal static bool ResultTypeIsAllowed (ExportMethod exportData, RootContext context, out ImmutableArray<Diagnostic> diagnostics,
 		Location? location = null)
 		=> TypeInfoFieldIsAllowed (
 			fieldName: nameof (exportData.ResultType),
@@ -194,10 +197,11 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 	/// Validates that the MethodName field is only used with the Async flag.
 	/// </summary>
 	/// <param name="exportData">The export data to validate.</param>
+	/// <param name="context">The root context for validation.</param>
 	/// <param name="diagnostics">When this method returns, contains an array of diagnostics if the data is invalid; otherwise, an empty array.</param>
 	/// <param name="location">The code location to be used for the diagnostics.</param>
 	/// <returns><c>true</c> if the data is valid; otherwise, <c>false</c>.</returns>
-	internal static bool MethodNameIsAllowed (ExportMethod exportData, out ImmutableArray<Diagnostic> diagnostics,
+	internal static bool MethodNameIsAllowed (ExportMethod exportData, RootContext context, out ImmutableArray<Diagnostic> diagnostics,
 		Location? location = null)
 		=> StringFieldIsAllowed (
 			fieldName: nameof (exportData.MethodName),
@@ -212,10 +216,11 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 	/// Validates that the PostNonResultSnippet field is only used with the Async flag.
 	/// </summary>
 	/// <param name="exportData">The export data to validate.</param>
+	/// <param name="context">The root context for validation.</param>
 	/// <param name="diagnostics">When this method returns, contains an array of diagnostics if the data is invalid; otherwise, an empty array.</param>
 	/// <param name="location">The code location to be used for the diagnostics.</param>
 	/// <returns><c>true</c> if the data is valid; otherwise, <c>false</c>.</returns>
-	internal static bool PostNonResultSnippetIsAllowed (ExportMethod exportData, out ImmutableArray<Diagnostic> diagnostics,
+	internal static bool PostNonResultSnippetIsAllowed (ExportMethod exportData, RootContext context, out ImmutableArray<Diagnostic> diagnostics,
 		Location? location = null)
 		=> StringFieldIsAllowed (
 			fieldName: nameof (exportData.PostNonResultSnippet),
@@ -230,10 +235,11 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 	/// Validates that the EventArgsType field is only used with the Event flag.
 	/// </summary>
 	/// <param name="exportData">The export data to validate.</param>
+	/// <param name="context">The root context for validation.</param>
 	/// <param name="diagnostics">When this method returns, contains an array of diagnostics if the data is invalid; otherwise, an empty array.</param>
 	/// <param name="location">The code location to be used for the diagnostics.</param>
 	/// <returns><c>true</c> if the data is valid; otherwise, <c>false</c>.</returns>
-	internal static bool EventArgsTypeIsAllowed (ExportMethod exportData, out ImmutableArray<Diagnostic> diagnostics,
+	internal static bool EventArgsTypeIsAllowed (ExportMethod exportData, RootContext context, out ImmutableArray<Diagnostic> diagnostics,
 		Location? location = null)
 		=> TypeInfoFieldIsAllowed (
 			fieldName: nameof (exportData.EventArgsType),
@@ -248,10 +254,11 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 	/// Validates that the EventArgsTypeName field is only used with the Event flag.
 	/// </summary>
 	/// <param name="exportData">The export data to validate.</param>
+	/// <param name="context">The root context for validation.</param>
 	/// <param name="diagnostics">When this method returns, contains an array of diagnostics if the data is invalid; otherwise, an empty array.</param>
 	/// <param name="location">The code location to be used for the diagnostics.</param>
 	/// <returns><c>true</c> if the data is valid; otherwise, <c>false</c>.</returns>
-	internal static bool EventArgsTypeNameIsAllowed (ExportMethod exportData, out ImmutableArray<Diagnostic> diagnostics,
+	internal static bool EventArgsTypeNameIsAllowed (ExportMethod exportData, RootContext context, out ImmutableArray<Diagnostic> diagnostics,
 		Location? location = null)
 		=> StringFieldIsAllowed (
 			fieldName: nameof (exportData.EventArgsTypeName),
@@ -266,10 +273,11 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 	/// Validates that the combination of flags is allowed.
 	/// </summary>
 	/// <param name="exportData">The export data to validate.</param>
+	/// <param name="context">The root context for validation.</param>
 	/// <param name="diagnostics">When this method returns, contains an array of diagnostics if the data is invalid; otherwise, an empty array.</param>
 	/// <param name="location">The code location to be used for the diagnostics.</param>
 	/// <returns><c>true</c> if the data is valid; otherwise, <c>false</c>.</returns>
-	internal static bool FlagsAreValid (ExportMethod exportData,
+	internal static bool FlagsAreValid (ExportMethod exportData, RootContext context,
 		out ImmutableArray<Diagnostic> diagnostics,
 		Location? location = null)
 	{
@@ -291,10 +299,11 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 	/// Validates that the selector is not null.
 	/// </summary>
 	/// <param name="selector">The selector to validate.</param>
+	/// <param name="context">The root context for validation.</param>
 	/// <param name="diagnostics">When this method returns, contains an array of diagnostics if the data is invalid; otherwise, an empty array.</param>
 	/// <param name="location">The code location to be used for the diagnostics.</param>
 	/// <returns><c>true</c> if the data is valid; otherwise, <c>false</c>.</returns>
-	internal static bool SelectorIsNotNull (string? selector, out ImmutableArray<Diagnostic> diagnostics,
+	internal static bool SelectorIsNotNull (string? selector, RootContext context, out ImmutableArray<Diagnostic> diagnostics,
 		Location? location = null)
 		=> StringStrategies.IsNotNull (
 			selector: selector,
@@ -306,10 +315,11 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 	/// Validates that the selector does not contain any whitespace.
 	/// </summary>
 	/// <param name="selector">The selector to validate.</param>
+	/// <param name="context">The root context for validation.</param>
 	/// <param name="diagnostics">When this method returns, contains an array of diagnostics if the data is invalid; otherwise, an empty array.</param>
 	/// <param name="location">The code location to be used for the diagnostics.</param>
 	/// <returns><c>true</c> if the data is valid; otherwise, <c>false</c>.</returns>
-	internal static bool SelectorHasNoWhitespace (string? selector, out ImmutableArray<Diagnostic> diagnostics,
+	internal static bool SelectorHasNoWhitespace (string? selector, RootContext context, out ImmutableArray<Diagnostic> diagnostics,
 		Location? location = null)
 		=> StringStrategies.HasNoWhitespace (
 			stringValue: selector,
@@ -322,10 +332,11 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 	/// Validates that an async method name does not contain any whitespace.
 	/// </summary>
 	/// <param name="selector">The method name to validate.</param>
+	/// <param name="context">The root context for validation.</param>
 	/// <param name="diagnostics">When this method returns, contains an array of diagnostics if the data is invalid; otherwise, an empty array.</param>
 	/// <param name="location">The code location to be used for the diagnostics.</param>
 	/// <returns><c>true</c> if the data is valid; otherwise, <c>false</c>.</returns>
-	internal static bool AsyncMethodNameHasNoWhitespace (string? selector, out ImmutableArray<Diagnostic> diagnostics,
+	internal static bool AsyncMethodNameHasNoWhitespace (string? selector, RootContext context, out ImmutableArray<Diagnostic> diagnostics,
 		Location? location = null)
 		=> StringStrategies.HasNoWhitespace (
 			stringValue: selector,
@@ -337,7 +348,7 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ExportMethodAttributeValidator"/> class.
 	/// </summary>
-	public ExportMethodAttributeValidator ()
+	public ExportMethodAttributeValidator () : base (d => d.Location)
 	{
 		// validate the flags values
 		AddGlobalStrategy (RBI0021, FlagsAreValid);
@@ -350,7 +361,7 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 		AddStrategy (
 			selector: d => d.NativePrefix,
 			descriptor: StringStrategies.RBI0024,
-			validation: (string? data, out ImmutableArray<Diagnostic> diagnostics, Location? location)
+			validation: (string? data, RootContext _, out ImmutableArray<Diagnostic> diagnostics, Location? location)
 				=> StringStrategies.NativeNameHasNoWhitespace (
 					data,
 					nameof (ExportMethod.NativePrefix),
@@ -361,7 +372,7 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 		AddStrategy (
 			selector: d => d.NativeSuffix,
 			descriptor: StringStrategies.RBI0024,
-			validation: (string? data, out ImmutableArray<Diagnostic> diagnostics, Location? location)
+			validation: (string? data, RootContext _, out ImmutableArray<Diagnostic> diagnostics, Location? location)
 				=> StringStrategies.NativeNameHasNoWhitespace (
 					data,
 					nameof (ExportMethod.NativeSuffix),
@@ -374,7 +385,7 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 		AddConditionalMutuallyExclusive (x => x.Flags,
 			exactlyOne: false, // we allow both to be null
 			requireAllFlags: false,
-			requiredFlags: [ObjCBindings.Method.Async],
+			requiredFlags: [Method.Async],
 			new FieldNullCheck<ExportMethod, TypeInfo> (data => data.ResultType, data => data.IsNullOrDefault),
 			new FieldNullCheck<ExportMethod, string?> (data => data.ResultTypeName, string.IsNullOrWhiteSpace)
 			);
@@ -389,7 +400,7 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 		AddStrategy (
 			selector: d => d.ResultTypeName,
 			descriptor: StringStrategies.RBI0025,
-			validation: (string? data, out ImmutableArray<Diagnostic> diagnostics, Location? location)
+			validation: (string? data, RootContext _, out ImmutableArray<Diagnostic> diagnostics, Location? location)
 				=> StringStrategies.TypeNameHasNoWhitespace (
 					data,
 					out diagnostics,
@@ -428,7 +439,7 @@ class ExportMethodAttributeValidator : Validator<ExportMethod> {
 		AddStrategy (
 			selector: d => d.EventArgsTypeName,
 			descriptor: StringStrategies.RBI0025,
-			validation: (string? data, out ImmutableArray<Diagnostic> diagnostics, Location? location)
+			validation: (string? data, RootContext _, out ImmutableArray<Diagnostic> diagnostics, Location? location)
 				=> StringStrategies.TypeNameHasNoWhitespace (
 					data,
 					out diagnostics,
