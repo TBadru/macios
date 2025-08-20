@@ -37,7 +37,7 @@ class PropertyOrFieldValidator : Validator<Property> {
 		if (errors.Count == 0)
 			return true;
 		// select all the errors from the inner validator
-		diagnostics = [..errors.SelectMany (x => x.Value)];
+		diagnostics = [.. errors.SelectMany (x => x.Value)];
 		return false;
 	}
 
@@ -50,5 +50,5 @@ class PropertyOrFieldValidator : Validator<Property> {
 		// add a global strategy based on the type of property (IsField or IsProperty) will call the appropriate strategy
 		var errors = fieldValidator.Descriptors.AddRange (propertyValidator.Descriptors);
 		AddGlobalStrategy (errors, ValidatePropertyOrField);
-	} 
+	}
 }
