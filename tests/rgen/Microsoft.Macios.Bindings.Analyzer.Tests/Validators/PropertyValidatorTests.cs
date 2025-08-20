@@ -50,12 +50,12 @@ public class PropertyValidatorTests {
 			modifiers.Add (SyntaxFactory.Token (SyntaxKind.PartialKeyword));
 
 		var accessors = ImmutableArray.CreateBuilder<Accessor> ();
-		
+
 		if (hasGetter) {
 			getterSelector ??= "sampleGetter";
 			var getterExportData = new ExportData<ObjCBindings.Property> (getterSelector,
 				argumentSemantic, ObjCBindings.Property.Default);
-			
+
 			accessors.Add (new Accessor (
 				accessorKind: AccessorKind.Getter,
 				symbolAvailability: new SymbolAvailability.Builder ().ToImmutable (),
@@ -69,7 +69,7 @@ public class PropertyValidatorTests {
 			setterSelector ??= "sampleSetter:";
 			var setterExportData = new ExportData<ObjCBindings.Property> (setterSelector,
 				argumentSemantic, ObjCBindings.Property.Default);
-			
+
 			accessors.Add (new Accessor (
 				accessorKind: AccessorKind.Setter,
 				symbolAvailability: new SymbolAvailability.Builder ().ToImmutable (),
@@ -93,7 +93,7 @@ public class PropertyValidatorTests {
 			modifiers: modifiers.ToImmutable (),
 			accessors: accessors.ToImmutable ()
 		) {
-			ExportPropertyData = new ExportData<ObjCBindings.Property> (propertySelector, 
+			ExportPropertyData = new ExportData<ObjCBindings.Property> (propertySelector,
 				argumentSemantic, propertyFlags)
 		};
 	}

@@ -10,7 +10,7 @@ using static Microsoft.Macios.Generator.RgenDiagnostics;
 namespace Microsoft.Macios.Bindings.Analyzer.Validators;
 
 static class PropertyStrategies {
-	
+
 	/// <summary>
 	/// Validates that the field property and its accessors are available on the current platform.
 	/// This method checks platform availability for the property itself, its getter (if present), and its setter (if present).
@@ -57,7 +57,7 @@ static class PropertyStrategies {
 		diagnostics = builder.ToImmutable ();
 		return diagnostics.Length == 0;
 	}
-	
+
 	/// <summary>
 	/// Validates that a field property has the partial modifier.
 	/// </summary>

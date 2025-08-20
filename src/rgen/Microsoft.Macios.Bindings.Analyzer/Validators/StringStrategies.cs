@@ -21,7 +21,7 @@ public static class StringStrategies {
 		Location? location = null)
 	{
 		diagnostics = ImmutableArray<Diagnostic>.Empty;
-		if (!string.IsNullOrEmpty(selector))
+		if (!string.IsNullOrEmpty (selector))
 			return true;
 		diagnostics = [
 			Diagnostic.Create (
@@ -119,5 +119,5 @@ public static class StringStrategies {
 		];
 		return false;
 	}
-	
+
 }

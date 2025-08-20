@@ -42,7 +42,7 @@ class ArrayValidator<T> : Validator<ImmutableArray<T>> {
 	/// The validator used internally to validate each of the items in the array.
 	/// </summary>
 	readonly Validator<T> validator;
-	
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ArrayValidator{T}"/> class.
 	/// </summary>

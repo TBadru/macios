@@ -78,16 +78,16 @@ public class ArrayValidatorTests {
 	[InlineData (new [] { false, false }, new [] { true, true }, 2)] // Two invalid (not static)
 	[InlineData (new [] { true, true }, new [] { false, false }, 2)] // Two invalid (not partial)
 	[InlineData (new [] { false, false }, new [] { false, false }, 4)] // Two invalid (neither static nor partial)
-	public void ValidateArrayFieldModifiersTests (bool[] isStaticArray, bool[] isPartialArray, int expectedDiagnosticsCount)
+	public void ValidateArrayFieldModifiersTests (bool [] isStaticArray, bool [] isPartialArray, int expectedDiagnosticsCount)
 	{
 		var validator = new ArrayValidator<Property> (new FieldValidator ());
 		var properties = ImmutableArray.CreateBuilder<Property> ();
-		
+
 		for (int i = 0; i < isStaticArray.Length; i++) {
 			properties.Add (CreateFieldProperty (
 				name: $"TestProperty{i}",
-				isStatic: isStaticArray[i],
-				isPartial: isPartialArray[i]
+				isStatic: isStaticArray [i],
+				isPartial: isPartialArray [i]
 			));
 		}
 
@@ -104,15 +104,15 @@ public class ArrayValidatorTests {
 	[InlineData (new [] { ObjCBindings.Property.IsThreadStatic, ObjCBindings.Property.Default }, 1)]
 	[InlineData (new [] { ObjCBindings.Property.IsThreadStatic, ObjCBindings.Property.MarshalNativeExceptions }, 2)]
 	[InlineData (new [] { ObjCBindings.Property.CustomMarshalDirective, ObjCBindings.Property.DisableZeroCopy, ObjCBindings.Property.IsThreadSafe }, 3)]
-	public void ValidateArrayIgnoredFlagsTests (ObjCBindings.Property[] flagsArray, int expectedDiagnosticsCount)
+	public void ValidateArrayIgnoredFlagsTests (ObjCBindings.Property [] flagsArray, int expectedDiagnosticsCount)
 	{
 		var validator = new ArrayValidator<Property> (new FieldValidator ());
 		var properties = ImmutableArray.CreateBuilder<Property> ();
-		
+
 		for (int i = 0; i < flagsArray.Length; i++) {
 			properties.Add (CreateFieldProperty (
 				name: $"TestProperty{i}",
-				flags: flagsArray[i]
+				flags: flagsArray [i]
 			));
 		}
 
@@ -134,19 +134,19 @@ public class ArrayValidatorTests {
 	[Theory]
 	[InlineData (new [] { "validSelector" }, 0)]
 	[InlineData (new [] { "" }, 1)]
-	[InlineData (new string?[] { null }, 1)]
+	[InlineData (new string? [] { null }, 1)]
 	[InlineData (new [] { "validSelector", "anotherValid" }, 0)]
 	[InlineData (new [] { "validSelector", null }, 1)]
-	[InlineData (new string?[] { null, null }, 2)]
-	public void ArraySelectorIsNotNullTests (string?[] selectors, int expectedDiagnosticsCount)
+	[InlineData (new string? [] { null, null }, 2)]
+	public void ArraySelectorIsNotNullTests (string? [] selectors, int expectedDiagnosticsCount)
 	{
 		var validator = new ArrayValidator<Property> (new FieldValidator ());
 		var properties = ImmutableArray.CreateBuilder<Property> ();
-		
+
 		for (int i = 0; i < selectors.Length; i++) {
 			properties.Add (CreateFieldProperty (
 				name: $"TestProperty{i}",
-				selector: selectors[i]
+				selector: selectors [i]
 			));
 		}
 
@@ -165,15 +165,15 @@ public class ArrayValidatorTests {
 	[InlineData (new [] { "validSelector", "invalid selector" }, 1)]
 	[InlineData (new [] { "invalid selector", "another invalid" }, 2)]
 	[InlineData (new [] { "selector\twith\ttab", "selector\nwith\nnewline", " leadingSpace" }, 3)]
-	public void ArraySelectorHasNoWhitespaceTests (string[] selectors, int expectedDiagnosticsCount)
+	public void ArraySelectorHasNoWhitespaceTests (string [] selectors, int expectedDiagnosticsCount)
 	{
 		var validator = new ArrayValidator<Property> (new FieldValidator ());
 		var properties = ImmutableArray.CreateBuilder<Property> ();
-		
+
 		for (int i = 0; i < selectors.Length; i++) {
 			properties.Add (CreateFieldProperty (
 				name: $"TestProperty{i}",
-				selector: selectors[i]
+				selector: selectors [i]
 			));
 		}
 
@@ -219,7 +219,7 @@ public class ArrayValidatorTests {
 	{
 		var validator = new ArrayValidator<Property> (new FieldValidator ());
 		var properties = ImmutableArray.CreateBuilder<Property> ();
-		
+
 		for (int i = 0; i < arraySize; i++) {
 			// Make every other property invalid (not static)
 			properties.Add (CreateFieldProperty (

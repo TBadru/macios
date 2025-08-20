@@ -48,7 +48,7 @@ class FieldValidator : Validator<Property> {
 			diagnostics: out diagnostics,
 			location: location
 		);
-	
+
 	/// <summary>
 	/// Validates that field property flags are appropriate for field properties.
 	/// Many property flags are ignored when used on fields, and this method validates that only valid flags are used.
@@ -108,7 +108,7 @@ class FieldValidator : Validator<Property> {
 		diagnostics = builder.ToImmutable ();
 		return diagnostics.Length == 0;
 	}
-	
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FieldValidator"/> class.
 	/// </summary>
