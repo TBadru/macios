@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+#pragma warning disable APL0003
 
 using Microsoft.Macios.Bindings.Analyzer.Validators;
 using Xunit;
 
 namespace Microsoft.Macios.Bindings.Analyzer.Tests.Validators;
 
-public class PropertyValidatorTests {
+public class PropertyOrFieldValidatorTests {
 
 	readonly PropertyValidatorTestLogic testLogic;
 
-	public PropertyValidatorTests ()
+	public PropertyOrFieldValidatorTests ()
 	{
-		testLogic = new PropertyValidatorTestLogic (new PropertyValidator ());
+		testLogic = new PropertyValidatorTestLogic (new PropertyOrFieldValidator ());
 	}
 
+	// Property-specific tests
 	[Theory]
 	[InlineData (true, 0)] // Valid property: partial
 	[InlineData (false, 1)] // Invalid: not partial
@@ -70,10 +72,6 @@ public class PropertyValidatorTests {
 	public void AccessorSelectorArgCountTests (string getterSelector, string setterSelector, int expectedDiagnosticsCount)
 		=> testLogic.AccessorSelectorArgCountTestsImpl (getterSelector, setterSelector, expectedDiagnosticsCount);
 
-	[Fact]
-	public void ValidateValidPropertyTests ()
-		=> testLogic.ValidateValidPropertyTestsImpl ();
-
 	[Theory]
 	[InlineData (true, true, 0)] // Has getter and setter, both valid
 	[InlineData (true, false, 0)] // Only getter, valid
@@ -86,6 +84,72 @@ public class PropertyValidatorTests {
 	[InlineData (false, "validGetter", null, 1)] // Not partial but has valid accessors
 	[InlineData (false, "", "validSetter:", 2)] // Not partial and invalid getter
 	[InlineData (false, "invalid getter", "invalid setter:", 3)] // Not partial and multiple issues
-	public void CombinedValidationTests (bool isPartial, string? getterSelector, string? setterSelector, int expectedDiagnosticsCount)
+	public void CombinedPropertyValidationTests (bool isPartial, string? getterSelector, string? setterSelector, int expectedDiagnosticsCount)
 		=> testLogic.CombinedPropertyValidationTestsImpl (isPartial, getterSelector, setterSelector, expectedDiagnosticsCount);
+
+	// Field-specific tests
+	[Theory]
+	[InlineData (true, true, 0)] // Valid field: static and partial
+	[InlineData (false, true, 1)] // Invalid: not static
+	[InlineData (true, false, 1)] // Invalid: not partial
+	[InlineData (false, false, 2)] // Invalid: neither static nor partial
+	public void ValidateFieldModifiersTests (bool isStatic, bool isPartial, int expectedDiagnosticsCount)
+		=> testLogic.ValidateFieldModifiersTestsImpl (isStatic, isPartial, expectedDiagnosticsCount);
+
+	[Theory]
+	[InlineData (ObjCBindings.Property.Default, 0)]
+	[InlineData (ObjCBindings.Property.IsThreadStatic, 1)]
+	[InlineData (ObjCBindings.Property.MarshalNativeExceptions, 1)]
+	[InlineData (ObjCBindings.Property.CustomMarshalDirective, 1)]
+	[InlineData (ObjCBindings.Property.DisableZeroCopy, 1)]
+	[InlineData (ObjCBindings.Property.IsThreadSafe, 1)]
+	[InlineData (ObjCBindings.Property.Transient, 1)]
+	[InlineData (ObjCBindings.Property.PlainString, 1)]
+	[InlineData (ObjCBindings.Property.CoreImageFilterProperty, 1)]
+	[InlineData (ObjCBindings.Property.AutoRelease, 1)]
+	[InlineData (ObjCBindings.Property.RetainReturnValue, 1)]
+	[InlineData (ObjCBindings.Property.ReleaseReturnValue, 1)]
+	[InlineData (ObjCBindings.Property.Proxy, 1)]
+	[InlineData (ObjCBindings.Property.WeakDelegate, 1)]
+	[InlineData (ObjCBindings.Property.Optional, 1)]
+	[InlineData (ObjCBindings.Property.CreateEvents, 1)]
+	public void ValidateIgnoredFlagsTests (ObjCBindings.Property flags, int expectedDiagnosticsCount)
+		=> testLogic.ValidateIgnoredFlagsTestsImpl (flags, expectedDiagnosticsCount);
+
+	[Theory]
+	[InlineData (ObjCBindings.Property.IsThreadStatic | ObjCBindings.Property.MarshalNativeExceptions, 2)]
+	[InlineData (ObjCBindings.Property.CustomMarshalDirective | ObjCBindings.Property.DisableZeroCopy | ObjCBindings.Property.IsThreadSafe, 3)]
+	[InlineData (ObjCBindings.Property.Transient | ObjCBindings.Property.PlainString | ObjCBindings.Property.CoreImageFilterProperty | ObjCBindings.Property.AutoRelease, 4)]
+	public void ValidateMultipleIgnoredFlagsTests (ObjCBindings.Property flags, int expectedDiagnosticsCount)
+		=> testLogic.ValidateMultipleIgnoredFlagsTestsImpl (flags, expectedDiagnosticsCount);
+
+	[Theory]
+	[InlineData ("validSelector", true, 0)]
+	[InlineData ("", false, 1)]
+	[InlineData (null, false, 1)]
+	[InlineData ("another_valid_selector", true, 0)]
+	[InlineData ("valid123", true, 0)]
+	public void FieldSelectorIsNotNullOrEmptyTests (string? selector, bool expectedResult, int expectedDiagnosticsCount)
+		=> testLogic.FieldSelectorIsNotNullOrEmptyTestsImpl (selector, expectedResult, expectedDiagnosticsCount);
+
+	[Theory]
+	[InlineData ("validSelector", true, 0)]
+	[InlineData ("invalid selector", false, 1)]
+	[InlineData ("selector\twith\ttab", false, 1)]
+	[InlineData ("selector\nwith\nnewline", false, 1)]
+	[InlineData ("selector with space", false, 1)]
+	[InlineData ("valid_selector", true, 0)]
+	[InlineData ("validSelector123", true, 0)]
+	[InlineData (" leadingSpace", false, 1)]
+	[InlineData ("trailingSpace ", false, 1)]
+	public void FieldSelectorHasNoWhitespaceTests (string selector, bool expectedResult, int expectedDiagnosticsCount)
+		=> testLogic.FieldSelectorHasNoWhitespaceTestsImpl (selector, expectedResult, expectedDiagnosticsCount);
+
+	[Fact]
+	public void ValidateValidPropertyTests ()
+		=> testLogic.ValidateValidPropertyTestsImpl ();
+
+	[Fact]
+	public void ValidateValidFieldPropertyTests ()
+		=> testLogic.ValidateValidFieldPropertyTestsImpl ();
 }
