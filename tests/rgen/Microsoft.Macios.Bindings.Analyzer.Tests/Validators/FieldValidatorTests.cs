@@ -154,7 +154,7 @@ public class FieldValidatorTests {
 
 	[Theory]
 	[InlineData ("validSelector", true, 0)]
-	[InlineData ("", true, 0)]
+	[InlineData ("", false, 1)]
 	[InlineData (null, false, 1)]
 	[InlineData ("another_valid_selector", true, 0)]
 	[InlineData ("valid123", true, 0)]

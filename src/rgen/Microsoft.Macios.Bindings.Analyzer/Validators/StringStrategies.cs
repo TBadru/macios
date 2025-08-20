@@ -17,11 +17,11 @@ public static class StringStrategies {
 	/// <param name="diagnostics">When this method returns, contains an array of diagnostics if the data is invalid; otherwise, an empty array.</param>
 	/// <param name="location">The code location to be used for the diagnostics.</param>
 	/// <returns><c>true</c> if the data is valid; otherwise, <c>false</c>.</returns>
-	internal static bool IsNotNull (string? selector, DiagnosticDescriptor descriptor, out ImmutableArray<Diagnostic> diagnostics,
+	internal static bool IsNotNullOrEmpty (string? selector, DiagnosticDescriptor descriptor, out ImmutableArray<Diagnostic> diagnostics,
 		Location? location = null)
 	{
 		diagnostics = ImmutableArray<Diagnostic>.Empty;
-		if (selector is not null)
+		if (!string.IsNullOrEmpty(selector))
 			return true;
 		diagnostics = [
 			Diagnostic.Create (

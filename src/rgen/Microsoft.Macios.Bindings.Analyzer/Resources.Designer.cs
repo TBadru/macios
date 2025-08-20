@@ -661,7 +661,7 @@ namespace Microsoft.Macios.Bindings.Analyzer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An export method selector must not contain any whitespace.
+        ///   Looks up a localized string similar to The export attribute must have a nonnull or empty selector.
         /// </summary>
         internal static string RBI0022MessageFormat {
             get {
