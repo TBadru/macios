@@ -49,7 +49,7 @@ readonly partial struct Method : IEquatable<Method> {
 	/// The name of the 'this' parameter for an extension method, or "this" for an instance method.
 	/// </summary>
 	public string This => IsExtension ? Parameters [0].Name : "this";
-	
+
 	/// <summary>
 	/// Method return type.
 	/// </summary>
@@ -71,7 +71,7 @@ readonly partial struct Method : IEquatable<Method> {
 	/// Returns if the method is static.
 	/// </summary>
 	public bool IsStatic => isStatic;
-	
+
 	readonly bool isSealed;
 
 	/// <summary>

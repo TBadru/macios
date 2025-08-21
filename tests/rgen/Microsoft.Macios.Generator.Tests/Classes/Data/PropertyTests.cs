@@ -68,7 +68,7 @@ public partial class PropertyTests {
 	[SupportedOSPlatform ("maccatalyst13.1")]
 	[Export<Property> ("name")]
 	public virtual partial string? OtherName { get; set; }
-	
+
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("tvos")]
 	[SupportedOSPlatform ("macos")]

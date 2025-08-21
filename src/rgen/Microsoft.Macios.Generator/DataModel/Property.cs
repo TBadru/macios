@@ -74,7 +74,7 @@ readonly partial struct Property : IEquatable<Property> {
 	public bool IsStatic => isStatic;
 
 	readonly bool isSealed;
-	
+
 	/// <summary>
 	/// True if the method was marked as sealed.
 	/// </summary>
