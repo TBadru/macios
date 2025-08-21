@@ -73,6 +73,13 @@ readonly partial struct Property : IEquatable<Property> {
 	/// </summary>
 	public bool IsStatic => isStatic;
 
+	readonly bool isSealed;
+	
+	/// <summary>
+	/// True if the method was marked as sealed.
+	/// </summary>
+	public bool IsSealed => isSealed;
+
 	/// <summary>
 	/// The platform availability of the property.
 	/// </summary>
@@ -94,6 +101,7 @@ readonly partial struct Property : IEquatable<Property> {
 		init {
 			modifiers = value;
 			isStatic = modifiers.Any (x => x.IsKind (SyntaxKind.StaticKeyword));
+			isSealed = modifiers.Any (x => x.IsKind (SyntaxKind.SealedKeyword));
 		}
 	}
 

@@ -128,4 +128,11 @@ public partial class MethodTests {
 	[SupportedOSPlatform ("maccatalyst13.1")]
 	[Export<Method> ("bookmarkDataWithContentsOfURL:subdomain:error:")]
 	public static unsafe partial NSData GetBookmarkData (NSUrl bookmarkFileUrl, string subdomain, out NSError? error);
+	
+	[SupportedOSPlatform ("ios")]
+	[SupportedOSPlatform ("tvos")]
+	[SupportedOSPlatform ("macos")]
+	[SupportedOSPlatform ("maccatalyst13.1")]
+	[Export<Method> ("replaceObjectAtIndex:withObject:")] 
+	internal sealed partial void ReplaceObject (nint index, IntPtr withObject); 
 }

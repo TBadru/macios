@@ -70,6 +70,10 @@ public partial class MethodTests
 	static readonly global::ObjCRuntime.NativeHandle selBookmarkDataWithContentsOfURL_Subdomain_Error_XHandle = global::ObjCRuntime.Selector.GetHandle ("bookmarkDataWithContentsOfURL:subdomain:error:");
 
 	[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+	const string selReplaceObjectAtIndex_WithObject_X = "replaceObjectAtIndex:withObject:";
+	static readonly global::ObjCRuntime.NativeHandle selReplaceObjectAtIndex_WithObject_XHandle = global::ObjCRuntime.Selector.GetHandle ("replaceObjectAtIndex:withObject:");
+
+	[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
 	static readonly global::ObjCRuntime.NativeHandle class_ptr = global::ObjCRuntime.Class.GetHandle ("MethodTests");
 
 	/// <summary>The Objective-C class handle for this class.</summary>
@@ -444,6 +448,17 @@ public partial class MethodTests
 				_tcs.SetResult (new (_cbattributedString, _cbattributes));
 		});
 		return _tcs.Task;
+	}
+
+	[SupportedOSPlatform ("macos")]
+	[SupportedOSPlatform ("ios")]
+	[SupportedOSPlatform ("tvos")]
+	[SupportedOSPlatform ("maccatalyst13.1")]
+	[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+	internal sealed partial void ReplaceObject (global::System.IntPtr index, global::System.IntPtr withObject)
+	{
+		global::ObjCRuntime.Messaging.void_objc_msgSend_IntPtr_IntPtr (this.Handle, global::ObjCRuntime.Selector.GetHandle ("replaceObjectAtIndex:withObject:"), index, withObject);
+		global::System.GC.KeepAlive (this);
 	}
 
 	[SupportedOSPlatform ("macos")]

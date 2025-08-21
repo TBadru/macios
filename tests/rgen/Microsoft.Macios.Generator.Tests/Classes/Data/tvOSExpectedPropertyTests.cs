@@ -65,6 +65,14 @@ public partial class PropertyTests
 	static readonly global::ObjCRuntime.NativeHandle selSetName_XHandle = global::ObjCRuntime.Selector.GetHandle ("setName:");
 
 	[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+	const string selSealedPropertyX = "sealedProperty";
+	static readonly global::ObjCRuntime.NativeHandle selSealedPropertyXHandle = global::ObjCRuntime.Selector.GetHandle ("sealedProperty");
+
+	[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+	const string selSetSealedProperty_X = "setSealedProperty:";
+	static readonly global::ObjCRuntime.NativeHandle selSetSealedProperty_XHandle = global::ObjCRuntime.Selector.GetHandle ("setSealedProperty:");
+
+	[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
 	const string selSurnamesX = "surnames";
 	static readonly global::ObjCRuntime.NativeHandle selSurnamesXHandle = global::ObjCRuntime.Selector.GetHandle ("surnames");
 
@@ -901,6 +909,40 @@ public partial class PropertyTests
 			global::System.GC.KeepAlive (nsa_value);
 			MarkDirty ();
 			__mt_Results_var = value;
+		}
+	}
+
+	[SupportedOSPlatform ("macos")]
+	[SupportedOSPlatform ("ios")]
+	[SupportedOSPlatform ("tvos")]
+	[SupportedOSPlatform ("maccatalyst13.1")]
+	[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+	public sealed partial string SelaedProperty
+	{
+		[SupportedOSPlatform ("macos")]
+		[SupportedOSPlatform ("ios")]
+		[SupportedOSPlatform ("tvos")]
+		[SupportedOSPlatform ("maccatalyst13.1")]
+		get
+		{
+			string ret;
+			ret = global::CoreFoundation.CFString.FromHandle (global::ObjCRuntime.Messaging.NativeHandle_objc_msgSend (this.Handle, global::ObjCRuntime.Selector.GetHandle ("sealedProperty")), false)!;
+			global::System.GC.KeepAlive (this);
+			return ret;
+		}
+
+		[SupportedOSPlatform ("macos")]
+		[SupportedOSPlatform ("ios")]
+		[SupportedOSPlatform ("tvos")]
+		[SupportedOSPlatform ("maccatalyst13.1")]
+		set
+		{
+			if (value is null)
+				global::ObjCRuntime.ThrowHelper.ThrowArgumentNullException (nameof (value));
+			var nsvalue = global::CoreFoundation.CFString.CreateNative (value);
+			global::ObjCRuntime.Messaging.void_objc_msgSend_NativeHandle (this.Handle, global::ObjCRuntime.Selector.GetHandle ("setSealedProperty:"), nsvalue);
+			global::System.GC.KeepAlive (this);
+			global::CoreFoundation.CFString.ReleaseNative (nsvalue);
 		}
 	}
 

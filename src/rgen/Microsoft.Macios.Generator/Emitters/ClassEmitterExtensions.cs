@@ -101,7 +101,7 @@ static class ClassEmitterExtensions {
 		}
 
 		// if we are dealing with a protocol or an extension method, we need to call send directly
-		if (context.Changes.BindingType == BindingType.Protocol || method.IsExtension) {
+		if (context.Changes.BindingType == BindingType.Protocol || method.IsExtension || method.IsSealed) {
 			methodBlock.WriteRaw (
 $@"{ExpressionStatement (invocations.Send)}
 {ExpressionStatement (KeepAlive (method.This))}
@@ -148,7 +148,7 @@ $@"if (IsDirectBinding) {{
 		}
 
 		// if we are dealing with a protocol or an extension method, we need to call send directly
-		if (context.Changes.BindingType == BindingType.Protocol || method.IsExtension) {
+		if (context.Changes.BindingType == BindingType.Protocol || method.IsExtension || method.IsSealed) {
 			methodBlock.WriteRaw (
 $@"{tempDeclaration}
 {ExpressionStatement (invocations.Send)}
@@ -395,7 +395,7 @@ return {backingField};
 				// the return value
 				var (tempVar, tempDeclaration) = GetReturnValueAuxVariable (property.ReturnType);
 				// if the binding is a protocol, we need to call send directly
-				if (context.Changes.BindingType == BindingType.Protocol) {
+				if (context.Changes.BindingType == BindingType.Protocol || property.IsSealed) {
 					getterBlock.WriteLine ($"{tempDeclaration}");
 					getterBlock.WriteLine ($"{ExpressionStatement (invocations.Getter.Send)}");
 					getterBlock.WriteLine ($"{ExpressionStatement (KeepAlive ("this"))}");
@@ -447,7 +447,7 @@ if (IsDirectBinding) {{
 
 				// perform the invocation
 				// if the binding is a protocol, we need to call send directly
-				if (context.Changes.BindingType == BindingType.Protocol) {
+				if (context.Changes.BindingType == BindingType.Protocol || property.IsSealed) {
 					setterBlock.WriteLine ($"{ExpressionStatement (invocations.Setter.Value.Send)}");
 					setterBlock.WriteLine ($"{ExpressionStatement (KeepAlive ("this"))}");
 				} else {
