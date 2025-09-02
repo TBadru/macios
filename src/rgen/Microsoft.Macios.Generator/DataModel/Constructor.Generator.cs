@@ -29,6 +29,11 @@ readonly partial struct Constructor {
 	/// The location of the attribute in source code.
 	/// </summary>
 	public Location? Location { get; init; }
+	
+	/// <summary>
+	/// True if the cosntructor was marked to skip its registration.
+	/// </summary>
+	public bool SkipRegistration => ExportMethodData.Flags.HasFlag (ObjCBindings.Constructor.SkipRegistration);
 
 	public Constructor (string type,
 		SymbolAvailability symbolAvailability,

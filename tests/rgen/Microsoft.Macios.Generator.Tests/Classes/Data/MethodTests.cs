@@ -133,6 +133,7 @@ public partial class MethodTests {
 	[SupportedOSPlatform ("tvos")]
 	[SupportedOSPlatform ("macos")]
 	[SupportedOSPlatform ("maccatalyst13.1")]
-	[Export<Method> ("replaceObjectAtIndex:withObject:")]
+	[Export<Method> ("replaceObjectAtIndex:withObject:",
+		Flags = ObjCBindings.Method.SkipRegistration)]
 	internal sealed partial void ReplaceObject (nint index, IntPtr withObject);
 }

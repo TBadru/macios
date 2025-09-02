@@ -146,6 +146,11 @@ readonly partial struct Property {
 	/// States if a property is optional in a protocol definition.
 	/// </summary>
 	public bool IsOptional => IsProperty && ExportPropertyData.Flags.HasFlag (ObjCBindings.Property.Optional);
+	
+	/// <summary>
+	/// True if the property was marked to skip its registration.
+	/// </summary>
+	public bool SkipRegistration => IsProperty && ExportPropertyData.Flags.HasFlag (ObjCBindings.Property.SkipRegistration);
 
 	readonly bool? needsBackingField = null;
 	/// <summary>
