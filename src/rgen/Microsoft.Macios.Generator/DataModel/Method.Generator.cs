@@ -100,7 +100,7 @@ readonly partial struct Method {
 	/// True if the method is an event.
 	/// </summary>
 	public bool IsEvent => ExportMethodData.Flags.HasFlag (ObjCBindings.Method.Event);
-	
+
 	/// <summary>
 	/// True if the method was marked to skip its registration.
 	/// </summary>

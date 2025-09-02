@@ -199,7 +199,7 @@ if (IsDirectBinding) {{
 		if (context.Changes.BindingType == BindingType.Protocol && !method.IsExtension) {
 			classBlock.AppendExportAttribute (method.ExportMethodData);
 		}
-		
+
 		// this is needed to support the registrar until it understands the rgen attributes. 
 		if (GeneratorConfiguration.BGenCompatible && !method.SkipRegistration) {
 			classBlock.AppendBgenExportAttribute (method.ExportMethodData);
@@ -398,7 +398,7 @@ return {backingField};
 				// same, needed to support the registrar until it understands the rgen attributes.
 				propertyBlock.AppendBgenExportAttribute (selector);
 			}
-			
+
 			using (var getterBlock = propertyBlock.CreateBlock ("get", block: true)) {
 				if (uiThreadCheck is not null) {
 					getterBlock.WriteLine (uiThreadCheck.ToString ());
@@ -448,7 +448,7 @@ if (IsDirectBinding) {{
 				propertyBlock.AppendDelegateParameter (property.ReturnType);
 			if (context.Changes.BindingType == BindingType.Protocol && !setter.ExportPropertyData.IsNullOrDefault)
 				propertyBlock.AppendExportAttribute (setter.ExportPropertyData);
-			
+
 			if (GeneratorConfiguration.BGenCompatible && !property.SkipRegistration) {
 				// same, needed to support the registrar until it understands the rgen attributes.
 				var selector = setter.GetSelector (property);

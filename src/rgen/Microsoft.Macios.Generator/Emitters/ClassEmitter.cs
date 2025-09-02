@@ -66,7 +66,7 @@ class ClassEmitter : IClassEmitter {
 			if (GeneratorConfiguration.BGenCompatible && !constructor.SkipRegistration) {
 				classBlock.AppendBgenExportAttribute (constructor.Selector);
 			}
-			
+
 			using (var constructorBlock = classBlock.CreateBlock (constructor.ToDeclaration (withBaseNSFlag: true).ToString (), block: true)) {
 				// retrieve the method invocation via the factory, this will generate the necessary arguments
 				// transformations and the invocation

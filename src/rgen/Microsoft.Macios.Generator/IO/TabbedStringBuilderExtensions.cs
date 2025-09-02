@@ -287,7 +287,7 @@ static class TabbedStringBuilderExtensions {
 		self.WriteLine ($"[Export<Property> (\"{exportData.Selector}\")]");
 		return self;
 	}
-	
+
 	/// <summary>
 	/// Appends an `[Export]` attribute to the current writer for bgen compatibility.
 	/// This is a simplified version that only includes the selector.
@@ -303,7 +303,7 @@ static class TabbedStringBuilderExtensions {
 		self.WriteLine ($"[Export (\"{exportData.Selector}\")]");
 		return self;
 	}
-	
+
 	/// <summary>
 	/// Appends an `[Export]` attribute to the current writer for bgen compatibility.
 	/// This is a simplified version that only includes the selector.
@@ -316,13 +316,13 @@ static class TabbedStringBuilderExtensions {
 	{
 		if (string.IsNullOrEmpty (selector))
 			return self;
-		
+
 		// append the old export attribute for bgen compatibility so that we do not need to update the registrar right
 		// away
 		self.WriteLine ($"[Export (\"{selector}\")]");
 		return self;
 	}
-	
+
 	/// <summary>
 	/// Appends an `[Export]` attribute to the current writer for bgen compatibility.
 	/// This is a simplified version that only includes the selector.
