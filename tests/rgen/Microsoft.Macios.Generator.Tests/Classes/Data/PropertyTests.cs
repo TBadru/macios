@@ -190,7 +190,7 @@ public partial class PropertyTests {
 	[BindFrom (typeof (NSValue))]
 	[Export<Property> ("Center")]
 	public virtual partial CGPoint [] Location { get; set; }
-	
+
 	[SupportedOSPlatform ("ios")]
 	[SupportedOSPlatform ("tvos")]
 	[SupportedOSPlatform ("macos")]
