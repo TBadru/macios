@@ -408,7 +408,7 @@ return {backingField};
 				// the return value
 				var (tempVar, tempDeclaration) = GetReturnValueAuxVariable (property.ReturnType);
 				// if the binding is a protocol, we need to call send directly
-				if (context.Changes.BindingType == BindingType.Protocol || property.IsSealed) {
+				if (context.Changes.BindingType == BindingType.Protocol || property.SkipRegistration) {
 					getterBlock.WriteLine ($"{tempDeclaration}");
 					getterBlock.WriteLine ($"{ExpressionStatement (invocations.Getter.Send)}");
 					getterBlock.WriteLine ($"{ExpressionStatement (KeepAlive ("this"))}");
@@ -466,7 +466,7 @@ if (IsDirectBinding) {{
 
 				// perform the invocation
 				// if the binding is a protocol, we need to call send directly
-				if (context.Changes.BindingType == BindingType.Protocol || property.IsSealed) {
+				if (context.Changes.BindingType == BindingType.Protocol || property.SkipRegistration) {
 					setterBlock.WriteLine ($"{ExpressionStatement (invocations.Setter.Value.Send)}");
 					setterBlock.WriteLine ($"{ExpressionStatement (KeepAlive ("this"))}");
 				} else {

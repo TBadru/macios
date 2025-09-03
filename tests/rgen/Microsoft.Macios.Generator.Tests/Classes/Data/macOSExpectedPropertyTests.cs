@@ -161,6 +161,14 @@ public partial class PropertyTests
 	static readonly global::ObjCRuntime.NativeHandle selSetCenter_XHandle = global::ObjCRuntime.Selector.GetHandle ("setCenter:");
 
 	[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+	const string selNotRegistedLocationX = "NotRegistedLocation";
+	static readonly global::ObjCRuntime.NativeHandle selNotRegistedLocationXHandle = global::ObjCRuntime.Selector.GetHandle ("NotRegistedLocation");
+
+	[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+	const string selSetNotRegistedLocation_X = "setNotRegistedLocation:";
+	static readonly global::ObjCRuntime.NativeHandle selSetNotRegistedLocation_XHandle = global::ObjCRuntime.Selector.GetHandle ("setNotRegistedLocation:");
+
+	[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
 	static readonly global::ObjCRuntime.NativeHandle class_ptr = global::ObjCRuntime.Class.GetHandle ("PropertyTests");
 
 	/// <summary>The Objective-C class handle for this class.</summary>
@@ -813,6 +821,41 @@ public partial class PropertyTests
 	[SupportedOSPlatform ("tvos")]
 	[SupportedOSPlatform ("maccatalyst13.1")]
 	[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+	public virtual partial global::CoreGraphics.CGPoint[] NotRegistedLocation
+	{
+		[SupportedOSPlatform ("macos")]
+		[SupportedOSPlatform ("ios")]
+		[SupportedOSPlatform ("tvos")]
+		[SupportedOSPlatform ("maccatalyst13.1")]
+		get
+		{
+			global::CoreGraphics.CGPoint[] ret;
+			ret = global::Foundation.NSArray.ArrayFromHandleFunc<global::CoreGraphics.CGPoint> (global::ObjCRuntime.Messaging.NativeHandle_objc_msgSend (this.Handle, global::ObjCRuntime.Selector.GetHandle ("NotRegistedLocation")), global::Foundation.NSValue.ToCGPoint, false);
+			global::System.GC.KeepAlive (this);
+			return ret;
+		}
+
+		[SupportedOSPlatform ("macos")]
+		[SupportedOSPlatform ("ios")]
+		[SupportedOSPlatform ("tvos")]
+		[SupportedOSPlatform ("maccatalyst13.1")]
+		set
+		{
+			if (value is null)
+				global::ObjCRuntime.ThrowHelper.ThrowArgumentNullException (nameof (value));
+			using var nsa_value = global::Foundation.NSArray.FromNSObjects (value);
+			var nsb_value__handle__ = nsb_value!.GetNonNullHandle (nameof (nsb_value));
+			global::ObjCRuntime.Messaging.void_objc_msgSend_NativeHandle (this.Handle, global::ObjCRuntime.Selector.GetHandle ("setNotRegistedLocation:"), nsa_value__handle__);
+			global::System.GC.KeepAlive (this);
+			global::System.GC.KeepAlive (nsb_value);
+		}
+	}
+
+	[SupportedOSPlatform ("macos")]
+	[SupportedOSPlatform ("ios")]
+	[SupportedOSPlatform ("tvos")]
+	[SupportedOSPlatform ("maccatalyst13.1")]
+	[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
 	public virtual partial string? OtherName
 	{
 		[SupportedOSPlatform ("macos")]
@@ -949,7 +992,7 @@ public partial class PropertyTests
 	[SupportedOSPlatform ("tvos")]
 	[SupportedOSPlatform ("maccatalyst13.1")]
 	[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
-	public sealed partial string SelaedProperty
+	public sealed partial string SealedProperty
 	{
 		[SupportedOSPlatform ("macos")]
 		[SupportedOSPlatform ("ios")]
@@ -959,7 +1002,11 @@ public partial class PropertyTests
 		get
 		{
 			string ret;
-			ret = global::CoreFoundation.CFString.FromHandle (global::ObjCRuntime.Messaging.NativeHandle_objc_msgSend (this.Handle, global::ObjCRuntime.Selector.GetHandle ("sealedProperty")), false)!;
+			if (IsDirectBinding) {
+				ret = global::CoreFoundation.CFString.FromHandle (global::ObjCRuntime.Messaging.NativeHandle_objc_msgSend (this.Handle, global::ObjCRuntime.Selector.GetHandle ("sealedProperty")), false)!;
+			} else {
+				ret = global::CoreFoundation.CFString.FromHandle (global::ObjCRuntime.Messaging.NativeHandle_objc_msgSendSuper (this.SuperHandle, global::ObjCRuntime.Selector.GetHandle ("sealedProperty")), false)!;
+			}
 			global::System.GC.KeepAlive (this);
 			return ret;
 		}
@@ -974,7 +1021,11 @@ public partial class PropertyTests
 			if (value is null)
 				global::ObjCRuntime.ThrowHelper.ThrowArgumentNullException (nameof (value));
 			var nsvalue = global::CoreFoundation.CFString.CreateNative (value);
-			global::ObjCRuntime.Messaging.void_objc_msgSend_NativeHandle (this.Handle, global::ObjCRuntime.Selector.GetHandle ("setSealedProperty:"), nsvalue);
+			if (IsDirectBinding) {
+				global::ObjCRuntime.Messaging.void_objc_msgSend_NativeHandle (this.Handle, global::ObjCRuntime.Selector.GetHandle ("setSealedProperty:"), nsvalue);
+			} else {
+				global::ObjCRuntime.Messaging.void_objc_msgSendSuper_NativeHandle (this.SuperHandle, global::ObjCRuntime.Selector.GetHandle ("setSealedProperty:"), nsvalue);
+			}
 			global::System.GC.KeepAlive (this);
 			global::CoreFoundation.CFString.ReleaseNative (nsvalue);
 		}

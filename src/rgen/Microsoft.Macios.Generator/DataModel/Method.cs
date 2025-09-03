@@ -72,13 +72,6 @@ readonly partial struct Method : IEquatable<Method> {
 	/// </summary>
 	public bool IsStatic => isStatic;
 
-	readonly bool isSealed;
-
-	/// <summary>
-	/// True if the method was marked as sealed.
-	/// </summary>
-	public bool IsSealed => isSealed;
-
 	readonly ImmutableArray<SyntaxToken> modifiers = [];
 	/// <summary>
 	/// Modifiers list.
@@ -88,7 +81,6 @@ readonly partial struct Method : IEquatable<Method> {
 		init {
 			modifiers = value;
 			isStatic = modifiers.Any (x => x.IsKind (SyntaxKind.StaticKeyword));
-			isSealed = modifiers.Any (x => x.IsKind (SyntaxKind.SealedKeyword));
 		}
 	}
 
