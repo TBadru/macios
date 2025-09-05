@@ -495,8 +495,11 @@ COREGRAPHICS_CORE_SOURCES = \
 	CoreGraphics/CGLayer.cs \
 	CoreGraphics/CGPath.cs \
 	CoreGraphics/CGPoint.cs \
+	CoreGraphics/CGPointDictionary.cs \
 	CoreGraphics/CGRect.cs \
+	CoreGraphics/CGRectDictionary.cs \
 	CoreGraphics/CGSize.cs \
+	CoreGraphics/CGSizeDictionary.cs \
 	CoreGraphics/CGVector.cs \
 	CoreGraphics/CGPDFDocument.cs \
 	CoreGraphics/CGPDFPage-2.cs \
