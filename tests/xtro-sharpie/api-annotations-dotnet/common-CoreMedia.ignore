@@ -136,7 +136,6 @@
 !missing-pinvoke! CMBufferQueueGetMinPresentationTimeStamp is not bound
 !missing-pinvoke! CMBufferQueueGetTypeID is not bound
 !missing-pinvoke! CMBufferQueueCopyHead is not bound
-!missing-pinvoke! CMVideoFormatDescriptionCopyTagCollectionArray is not bound
 !missing-field! kCMMetadataDataType_QuickTimeMetadataMilliLux not bound
 !missing-field! kCMMetadataDataType_QuickTimeMetadataUUID not bound
 
