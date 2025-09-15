@@ -123,20 +123,20 @@ using (var test2 = new Test ())
 		Assert.Equal (expectedResult, ReadFile ());
 	}
 
-	public static IEnumerable<object[]> AppendCommentsTriviaTestData()
+	public static IEnumerable<object []> AppendCommentsTriviaTestData ()
 	{
 		// Case 1: Single line comment
-		var trivia1 = SyntaxFactory.ParseLeadingTrivia("// A single line comment");
+		var trivia1 = SyntaxFactory.ParseLeadingTrivia ("// A single line comment");
 		var expected1 = "// A single line comment\n";
 		yield return [trivia1, expected1];
 
 		// Case 2: Multi-line comment
-		var trivia2 = SyntaxFactory.ParseLeadingTrivia("/* A multi-line\n   comment */");
+		var trivia2 = SyntaxFactory.ParseLeadingTrivia ("/* A multi-line\n   comment */");
 		var expected2 = "/* A multi-line\n   comment */";
 		yield return [trivia2, expected2];
 
 		// Case 3: Single line doc comment
-		var trivia3 = SyntaxFactory.ParseLeadingTrivia("/// A single line doc comment");
+		var trivia3 = SyntaxFactory.ParseLeadingTrivia ("/// A single line doc comment");
 		var expected3 = "/// A single line doc comment\n";
 		yield return [trivia3, expected3];
 
@@ -155,7 +155,7 @@ using (var test2 = new Test ())
 		yield return [trivia4, expected4];
 
 		// Case 5: Mix of comments and other trivia
-		var trivia5 = SyntaxFactory.ParseLeadingTrivia(@"
+		var trivia5 = SyntaxFactory.ParseLeadingTrivia (@"
     // A comment
     /// A doc comment
 ");
@@ -163,66 +163,64 @@ using (var test2 = new Test ())
 		yield return [trivia5, expected5];
 
 		// Case 6: No comments, only other trivia
-		var trivia6 = SyntaxFactory.ParseLeadingTrivia("\n    ");
+		var trivia6 = SyntaxFactory.ParseLeadingTrivia ("\n    ");
 		var expected6 = "";
 		yield return [trivia6, expected6];
 
 		// Case 7: Empty trivia list
-		var trivia7 = new SyntaxTriviaList();
+		var trivia7 = new SyntaxTriviaList ();
 		var expected7 = "";
 		yield return [trivia7, expected7];
 	}
 
 	[Theory]
-	[MemberData(nameof(AppendCommentsTriviaTestData))]
+	[MemberData (nameof (AppendCommentsTriviaTestData))]
 	public async Task AppendCommentsTrivia (SyntaxTriviaList trivia, string expected)
 	{
-		await using (var writer = new TabbedStreamWriter(tempFile))
-		{
+		await using (var writer = new TabbedStreamWriter (tempFile)) {
 			await writer.AppendCommentsTrivia (trivia);
 		}
-		Assert.Equal(expected, ReadFile());
+		Assert.Equal (expected, ReadFile ());
 	}
 
-	public static IEnumerable<object[]> AppendUsingDirectivesTestData()
+	public static IEnumerable<object []> AppendUsingDirectivesTestData ()
 	{
 		// Case 1: Empty set
-		yield return new object[] {
+		yield return new object [] {
 			new HashSet<string>(),
 			"using ObjCBindings;\nusing ObjCRuntime;\nusing System.Runtime.Versioning;\n"
 		};
 
 		// Case 2: With some directives
-		yield return new object[] {
+		yield return new object [] {
 			new HashSet<string> { "System", "System.Collections.Generic" },
 			"using ObjCBindings;\nusing ObjCRuntime;\nusing System;\nusing System.Collections.Generic;\nusing System.Runtime.Versioning;\n"
 		};
 
 		// Case 3: With duplicates of default directives
-		yield return new object[] {
+		yield return new object [] {
 			new HashSet<string> { "ObjCRuntime", "System" },
 			"using ObjCBindings;\nusing ObjCRuntime;\nusing System;\nusing System.Runtime.Versioning;\n"
 		};
 
 		// Case 4: With all default directives present
-		yield return new object[] {
+		yield return new object [] {
 			new HashSet<string> { "ObjCRuntime", "ObjCBindings", "System.Runtime.Versioning" },
 			"using ObjCBindings;\nusing ObjCRuntime;\nusing System.Runtime.Versioning;\n"
 		};
 	}
 
 	[Theory]
-	[MemberData(nameof(AppendUsingDirectivesTestData))]
-	public async Task AppendUsingDirectives(IReadOnlySet<string> directives, string expected)
+	[MemberData (nameof (AppendUsingDirectivesTestData))]
+	public async Task AppendUsingDirectives (IReadOnlySet<string> directives, string expected)
 	{
-		await using (var writer = new TabbedStreamWriter(tempFile))
-		{
-			await writer.AppendUsingDirectives(directives);
+		await using (var writer = new TabbedStreamWriter (tempFile)) {
+			await writer.AppendUsingDirectives (directives);
 		}
-		Assert.Equal(expected, ReadFile());
+		Assert.Equal (expected, ReadFile ());
 	}
 
-	public static IEnumerable<object[]> AppendMemberAvailabilityTestData()
+	public static IEnumerable<object []> AppendMemberAvailabilityTestData ()
 	{
 		var builder = SymbolAvailability.CreateBuilder ();
 
@@ -266,13 +264,12 @@ using (var test2 = new Test ())
 	}
 
 	[Theory]
-	[MemberData(nameof(AppendMemberAvailabilityTestData))]
+	[MemberData (nameof (AppendMemberAvailabilityTestData))]
 	async Task AppendMemberAvailabilityAsyncTest (SymbolAvailability availability, string expected)
 	{
-		await using (var writer = new TabbedStreamWriter(tempFile))
-		{
-			await writer.AppendMemberAvailabilityAsync(availability);
+		await using (var writer = new TabbedStreamWriter (tempFile)) {
+			await writer.AppendMemberAvailabilityAsync (availability);
 		}
-		Assert.Equal(expected, ReadFile());
+		Assert.Equal (expected, ReadFile ());
 	}
 }
