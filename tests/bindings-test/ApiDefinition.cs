@@ -577,6 +577,21 @@ namespace Bindings.Test {
 		IVeryGenericConsumerProtocol GetConsumer ();
 	}
 
+	[BaseType (typeof (NSObject))]
+	interface WeakReferencedObject {
+		[Export ("doSomething")]
+		int DoSomething ();
+	}
+
+	[BaseType (typeof (NSObject))]
+	interface WeakReferenceHolder {
+		[Export ("addObject:")]
+		void AddObject (WeakReferencedObject obj);
+
+		[Export ("callDoSomething:nonNilObjectCount:gotExpectedResponse:gotUnexpectedResponse:gotFinalizedResponse:")]
+		void CallDoSomething (ref int nilObjectCount, ref int nonNilObjectCount, ref int gotExpectedResponse, ref int gotUnexpectedResponse, ref int gotFinalizedResponse);
+	}
+
 	enum StrongEnum {
 		[Field ("StrongEnumA", LibraryName = "__Internal")]
 		A,
