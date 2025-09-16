@@ -44,6 +44,10 @@ public partial class AppDelegate : UIApplicationDelegate {
 
 		PostFinishedLaunching ();
 
+#if INCLUDED_ADDITIONAL_CODE
+		Console.WriteLine ("Additional code is included.");
+#endif
+
 		return true;
 	}
 
