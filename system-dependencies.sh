@@ -332,10 +332,15 @@ function xcodebuild_download_selected_platforms ()
 	IOS_BUILD_VERSION=
 	TVOS_BUILD_VERSION=
 	if [[ "$XCODE_IS_STABLE" == "YES" ]]; then
+		if [[ "$(arch)" == "arm64" ]]; then
+			ARCHITECTURE_VARIANT=arm64
+		else
+			ARCHITECTURE_VARIANT=universal
+		fi
 		IOS_NUGET_OS_VERSION=$(grep '^IOS_NUGET_OS_VERSION=' Make.versions | sed 's/.*=//')
-		IOS_BUILD_VERSION=" -buildVersion $IOS_NUGET_OS_VERSION"
+		IOS_BUILD_VERSION=" -buildVersion $IOS_NUGET_OS_VERSION -architectureVariant $ARCHITECTURE_VARIANT"
 		TVOS_NUGET_OS_VERSION=$(grep '^TVOS_NUGET_OS_VERSION=' Make.versions | sed 's/.*=//')
-		TVOS_BUILD_VERSION=" -buildVersion $TVOS_NUGET_OS_VERSION"
+		TVOS_BUILD_VERSION=" -buildVersion $TVOS_NUGET_OS_VERSION -architectureVariant $ARCHITECTURE_VARIANT"
 	fi
 
 	log "Executing '$XCODE_DEVELOPER_ROOT/usr/bin/xcodebuild -downloadPlatform iOS$IOS_BUILD_VERSION' $1"
