@@ -319,6 +319,7 @@ function xcodebuild_download_selected_platforms ()
 	local XCODE_DEVELOPER_ROOT
 	local XCODE_NAME
 	local XCODE_IS_STABLE
+	local XCODE_VERSION
 	local IOS_NUGET_OS_VERSION
 	local IOS_BUILD_VERSION
 	local TVOS_NUGET_OS_VERSION
@@ -328,14 +329,23 @@ function xcodebuild_download_selected_platforms ()
 	XCODE_NAME=$(basename "$(dirname "$(dirname "$XCODE_DEVELOPER_ROOT")")")
 	# we use the same logic here as in Make.config to determine whether we're using a stable version of Xcode or not (search for XCODE_IS_STABLE/XCODE_IS_PREVIEW)
 	XCODE_IS_STABLE=$(echo "$XCODE_NAME" | sed -e 's@^Xcode[_0-9.]*[.]app$@YES@')
+	XCODE_VERSION=$(grep ^XCODE_VERSION= Make.config | sed 's/.*=//')
 
 	IOS_BUILD_VERSION=
 	TVOS_BUILD_VERSION=
-	if [[ "$XCODE_IS_STABLE" == "YES" ]]; then
-		IOS_NUGET_OS_VERSION=$(grep '^IOS_NUGET_OS_VERSION=' Make.versions | sed 's/.*=//')
-		IOS_BUILD_VERSION=" -buildVersion $IOS_NUGET_OS_VERSION"
-		TVOS_NUGET_OS_VERSION=$(grep '^TVOS_NUGET_OS_VERSION=' Make.versions | sed 's/.*=//')
-		TVOS_BUILD_VERSION=" -buildVersion $TVOS_NUGET_OS_VERSION"
+	if is_at_least_version "$XCODE_VERSION" 26.1; then
+		# passing -buildVersion .. --architectureVariant .. doesn't quite work in Xcode 26.0 (it works the first time, but then it always thinks it's the first time, tries to download and install, and gets confused), let's see if they fix it in Xcode 26.1
+		if [[ "$XCODE_IS_STABLE" == "YES" ]]; then
+			if [[ "$(arch)" == "arm64" ]]; then
+				ARCHITECTURE_VARIANT=arm64
+			else
+				ARCHITECTURE_VARIANT=universal
+			fi
+			IOS_NUGET_OS_VERSION=$(grep '^IOS_NUGET_OS_VERSION=' Make.versions | sed 's/.*=//')
+			IOS_BUILD_VERSION=" -buildVersion $IOS_NUGET_OS_VERSION -architectureVariant $ARCHITECTURE_VARIANT"
+			TVOS_NUGET_OS_VERSION=$(grep '^TVOS_NUGET_OS_VERSION=' Make.versions | sed 's/.*=//')
+			TVOS_BUILD_VERSION=" -buildVersion $TVOS_NUGET_OS_VERSION -architectureVariant $ARCHITECTURE_VARIANT"
+		fi
 	fi
 
 	log "Executing '$XCODE_DEVELOPER_ROOT/usr/bin/xcodebuild -downloadPlatform iOS$IOS_BUILD_VERSION' $1"
