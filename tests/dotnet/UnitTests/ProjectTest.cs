@@ -104,17 +104,17 @@ namespace Xamarin.Tests {
 			Assert.That (result.StandardOutput.ToString (), Does.Not.Contain ("Task \"ILLink\""), "Linker executed unexpectedly.");
 		}
 
-		[TestCase ("iOS")]
-		[TestCase ("tvOS")]
-		[TestCase ("macOS")]
-		[TestCase ("MacCatalyst")]
+		[TestCase (ApplePlatform.iOS)]
+		[TestCase (ApplePlatform.TVOS)]
+		[TestCase (ApplePlatform.MacOSX)]
+		[TestCase (ApplePlatform.MacCatalyst)]
 		[Category ("WindowsInclusive")]
-		public void BuildEmbeddedResourcesTest (string platform)
+		public void BuildEmbeddedResourcesTest (ApplePlatform platform)
 		{
 			Configuration.IgnoreIfIgnoredPlatform (platform);
 			var assemblyName = "EmbeddedResources";
 			var dotnet_bindings_dir = Path.Combine (Configuration.SourceRoot, "tests", assemblyName, "dotnet");
-			var project_dir = Path.Combine (dotnet_bindings_dir, platform);
+			var project_dir = Path.Combine (dotnet_bindings_dir, platform.AsString ());
 			var project_path = Path.Combine (project_dir, $"{assemblyName}.csproj");
 			Clean (project_path);
 			var result = DotNet.AssertBuild (project_path, verbosity);
@@ -129,25 +129,36 @@ namespace Xamarin.Tests {
 			Assert.That (asm, Does.Exist, "Assembly existence");
 			// Verify that there's one resource in the assembly, and its name
 			var ad = AssemblyDefinition.ReadAssembly (asm, new ReaderParameters { ReadingMode = ReadingMode.Deferred });
-			Assert.That (ad.MainModule.Resources.Count, Is.EqualTo (1), "1 resource");
-			Assert.That (ad.MainModule.Resources [0].Name, Is.EqualTo ("EmbeddedResources.Welcome.resources"), "libtest.a");
+
+			var actualResources = ad.MainModule.Resources.Select (v => v.Name).OrderBy (v => v).ToArray ();
+			var expectedResources = new List<string> ()
+			{
+				"EmbeddedResources.Welcome.resources",
+			};
+			if (platform != ApplePlatform.MacOSX) {
+				// macOS doesn't have this resources, and it's removed by the linker for Mac Catalyst
+				// it's not removed for iOS/tvOS, because we don't bother removing resources for simulator builds.
+				expectedResources.Add ("__monotouch_item_PartialAppManifest_shared-dotnet.plist");
+			}
+			Assert.That (actualResources, Is.EqualTo (expectedResources.OrderBy (v => v).ToArray ()), $"embedded resources");
+
 			var asm_dir = Path.GetDirectoryName (asm)!;
 			Assert.That (Path.Combine (asm_dir, "en-AU", "EmbeddedResources.resources.dll"), Does.Exist, "en-AU");
 			Assert.That (Path.Combine (asm_dir, "de", "EmbeddedResources.resources.dll"), Does.Exist, "de");
 			Assert.That (Path.Combine (asm_dir, "es", "EmbeddedResources.resources.dll"), Does.Exist, "es");
 		}
 
-		[TestCase ("iOS")]
-		[TestCase ("tvOS")]
-		[TestCase ("macOS")]
-		[TestCase ("MacCatalyst")]
+		[TestCase (ApplePlatform.iOS)]
+		[TestCase (ApplePlatform.TVOS)]
+		[TestCase (ApplePlatform.MacOSX)]
+		[TestCase (ApplePlatform.MacCatalyst)]
 		[Category ("WindowsInclusive")]
-		public void BuildFSharpLibraryTest (string platform)
+		public void BuildFSharpLibraryTest (ApplePlatform platform)
 		{
 			Configuration.IgnoreIfIgnoredPlatform (platform);
 			var assemblyName = "fsharplibrary";
 			var dotnet_bindings_dir = Path.Combine (Configuration.SourceRoot, "tests", assemblyName, "dotnet");
-			var project_dir = Path.Combine (dotnet_bindings_dir, platform);
+			var project_dir = Path.Combine (dotnet_bindings_dir, platform.AsString ());
 			var project_path = Path.Combine (project_dir, $"{assemblyName}.fsproj");
 			Clean (project_path);
 			var result = DotNet.AssertBuild (project_path, verbosity);
@@ -161,13 +172,15 @@ namespace Xamarin.Tests {
 			Assert.That (asm, Does.Exist, "Assembly existence");
 			// Verify that there's no resources in the assembly
 			var ad = AssemblyDefinition.ReadAssembly (asm, new ReaderParameters { ReadingMode = ReadingMode.Deferred });
-			var expectedFSharpResources = new string [] {
+			var expectedFSharpResources = new List<string> {
 				"FSharpOptimizationCompressedData.fsharplibrary",
 				"FSharpSignatureCompressedData.fsharplibrary",
 				"FSharpSignatureCompressedDataB.fsharplibrary",
 			};
+			if (platform != ApplePlatform.MacOSX)
+				expectedFSharpResources.Add ("__monotouch_item_PartialAppManifest_shared-dotnet.plist");
 			var actualFSharpResources = ad.MainModule.Resources.Select (v => v.Name).OrderBy (v => v).ToArray ();
-			Assert.That (actualFSharpResources, Is.EqualTo (expectedFSharpResources), "F# resources:"); // There are some embedded resources by default by the F# compiler.
+			Assert.That (actualFSharpResources, Is.EqualTo (expectedFSharpResources.OrderBy (v => v).ToArray ()), "F# resources:"); // There are some embedded resources by default by the F# compiler.
 		}
 
 		[TestCase (ApplePlatform.iOS)]
@@ -197,7 +210,11 @@ namespace Xamarin.Tests {
 
 			// Verify that there's one resource in the binding assembly, and its name
 			var ad = AssemblyDefinition.ReadAssembly (asm, new ReaderParameters { ReadingMode = ReadingMode.Deferred });
-			Assert.That (ad.MainModule.Resources.Count, Is.EqualTo (0), "no embedded resources");
+			var actualResources = ad.MainModule.Resources.Select (v => v.Name).OrderBy (v => v).ToArray ();
+			var expectedResources = new List<string> ();
+			if (platform != ApplePlatform.MacOSX)
+				expectedResources.Add ("__monotouch_item_PartialAppManifest_shared-dotnet.plist");
+			Assert.That (actualResources, Is.EqualTo (expectedResources.OrderBy (v => v).ToArray ()), "embedded resources");
 			var resourceBundle = Path.Combine (project_dir, "bin", "Debug", platform.ToFramework (), assemblyName + ".resources");
 			var resourceZip = resourceBundle + ".zip";
 			if (!Directory.Exists (resourceBundle) && !File.Exists (resourceZip))
@@ -230,7 +247,11 @@ namespace Xamarin.Tests {
 
 			// Verify that there's one resource in the binding assembly, and its name
 			var ad = AssemblyDefinition.ReadAssembly (asm, new ReaderParameters { ReadingMode = ReadingMode.Deferred });
-			Assert.That (ad.MainModule.Resources.Count, Is.EqualTo (0), "no embedded resources");
+			var actualResources = ad.MainModule.Resources.Select (v => v.Name).OrderBy (v => v).ToArray ();
+			var expectedResources = new List<string> ();
+			if (platform != ApplePlatform.MacOSX)
+				expectedResources.Add ("__monotouch_item_PartialAppManifest_shared-dotnet.plist");
+			Assert.That (actualResources, Is.EqualTo (expectedResources.OrderBy (v => v).ToArray ()), "embedded resources");
 			var resourceBundle = Path.Combine (project_dir, "bin", "Debug", platform.ToFramework (), assemblyName + ".resources");
 			Assert.That (resourceBundle, Does.Exist, "Bundle existence");
 		}
@@ -283,7 +304,8 @@ namespace Xamarin.Tests {
 			var newPrefixed = expectedResources.Select (v => $"__{prefix}_item_BundleResource_{v}").ToList ();
 
 			// Add shared-dotnet.plist with PartialAppManifest prefix
-			if (platform != "macOS" && bundleOriginalResources == true) {
+			var actualBundleOriginalResources = bundleOriginalResources ?? Version.Parse (Configuration.DotNetTfm.Replace ("net", "")).Major >= 10;
+			if (platform != "macOS" && actualBundleOriginalResources) {
 				oldPrefixed.Add ($"__{prefix}_content_shared-dotnet.plist");
 				newPrefixed.Add ($"__{prefix}_item_PartialAppManifest_shared-dotnet.plist");
 			}
@@ -291,16 +313,16 @@ namespace Xamarin.Tests {
 			Assert.That (resources, Is.EquivalentTo (oldPrefixed).Or.EquivalentTo (newPrefixed), "Resources");
 		}
 
-		[TestCase ("iOS")]
-		[TestCase ("tvOS")]
-		[TestCase ("macOS")]
-		[TestCase ("MacCatalyst")]
-		public void BuildInterdependentBindingProjects (string platform)
+		[TestCase (ApplePlatform.iOS)]
+		[TestCase (ApplePlatform.TVOS)]
+		[TestCase (ApplePlatform.MacOSX)]
+		[TestCase (ApplePlatform.MacCatalyst)]
+		public void BuildInterdependentBindingProjects (ApplePlatform platform)
 		{
 			Configuration.IgnoreIfIgnoredPlatform (platform);
 			var assemblyName = "interdependent-binding-projects";
 			var dotnet_bindings_dir = Path.Combine (Configuration.SourceRoot, "tests", assemblyName, "dotnet");
-			var project_dir = Path.Combine (dotnet_bindings_dir, platform);
+			var project_dir = Path.Combine (dotnet_bindings_dir, platform.AsString ());
 			var project_path = Path.Combine (project_dir, $"{assemblyName}.csproj");
 
 			Clean (project_path);
@@ -321,13 +343,21 @@ namespace Xamarin.Tests {
 			Assert.That (ad.MainModule.Resources.Count, Is.EqualTo (0), "0 resources for interdependent-binding-projects.dll");
 
 			var ad1 = AssemblyDefinition.ReadAssembly (Path.Combine (asmDir, "bindings-test.dll"), new ReaderParameters { ReadingMode = ReadingMode.Deferred });
+
 			// The native library is removed from the resources by the linker
-			Assert.That (ad1.MainModule.Resources.Count, Is.EqualTo (0), "0 resources for bindings-test.dll");
+			var actualResources1 = ad1.MainModule.Resources.Select (v => v.Name).OrderBy (v => v).ToArray ();
+			var expectedResources = new List<string> ();
+			if (platform != ApplePlatform.MacOSX && platform != ApplePlatform.MacCatalyst) {
+				// macOS doesn't have this resources, and it's removed by the linker for Mac Catalyst
+				// it's not removed for iOS/tvOS, because we don't bother removing resources for simulator builds.
+				expectedResources.Add ("__monotouch_item_PartialAppManifest_shared-dotnet.plist");
+			}
+			Assert.That (actualResources1, Is.EqualTo (expectedResources.OrderBy (v => v).ToArray ()), $"embedded resources for bindings-test.dll");
 
 			var ad2 = AssemblyDefinition.ReadAssembly (Path.Combine (asmDir, "bindings-test2.dll"), new ReaderParameters { ReadingMode = ReadingMode.Deferred });
 			// The native library is removed from the resources by the linker
-			Assert.That (ad2.MainModule.Resources.Count, Is.EqualTo (0), "0 resources for bindings-test2.dll");
-
+			var actualResources2 = ad2.MainModule.Resources.Select (v => v.Name).OrderBy (v => v).ToArray ();
+			Assert.That (actualResources2, Is.EqualTo (expectedResources.OrderBy (v => v).ToArray ()), "embedded resources for bindings-test2.dll");
 		}
 
 		[Test]
@@ -916,7 +946,7 @@ namespace Xamarin.Tests {
 						$"__{platformPrefix}_item_SceneKitAsset_DirWithResources_slinkedArt.scnassets_sscene.scn",
 						$"__{platformPrefix}_item_SceneKitAsset_DirWithResources_slinkedArt.scnassets_stexture.png",
 					};
-					if (platform != ApplePlatform.MacOSX && bundleOriginalResources == true) {
+					if (platform != ApplePlatform.MacOSX && actualBundleOriginalResources) {
 						expectedResources.Add ($"__{platformPrefix}_item_PartialAppManifest_shared-dotnet.plist");
 					}
 				} else {
@@ -2106,6 +2136,7 @@ namespace Xamarin.Tests {
 			var project_path = GetProjectPath (project, runtimeIdentifiers: runtimeIdentifiers, platform: platform, out var appPath, netVersion: tfm);
 			Clean (project_path);
 			var properties = GetDefaultProperties (runtimeIdentifiers);
+			properties ["ValidateXcodeVersion"] = "false"; // we might end up trying to build an older, but still supported, version, which requires a different version of Xcode than the one we currently have, which will show an error. Ignore this error.
 
 			var result = DotNet.AssertBuild (project_path, properties);
 			AssertThatLinkerExecuted (result);
