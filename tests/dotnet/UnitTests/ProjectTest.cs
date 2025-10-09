@@ -252,7 +252,10 @@ namespace Xamarin.Tests {
 			if (platform != ApplePlatform.MacOSX)
 				expectedResources.Add ("__monotouch_item_PartialAppManifest_shared-dotnet.plist");
 			Assert.That (actualResources, Is.EqualTo (expectedResources.OrderBy (v => v).ToArray ()), "embedded resources");
+
 			var resourceBundle = Path.Combine (project_dir, "bin", "Debug", platform.ToFramework (), assemblyName + ".resources");
+			if (UsesCompressedBindingResourcePackage (platform))
+				resourceBundle += ".zip";
 			Assert.That (resourceBundle, Does.Exist, "Bundle existence");
 		}
 
@@ -1628,7 +1631,7 @@ namespace Xamarin.Tests {
 				if (hasDirectoryResources)
 					continue;
 
-				var zipContents = ZipHelpers.List (zip).ToHashSet ();
+				var zipContents = ZipHelpers.List (zip, '/').ToHashSet ();
 				var mustHaveContents = new List<string> {
 					"manifest",
 				};
@@ -1736,9 +1739,9 @@ namespace Xamarin.Tests {
 				});
 
 				var missing = mustHaveContents.ToHashSet ().Except (zipContents);
-				Assert.That (missing, Is.Empty, "No missing files");
-
 				var extra = zipContents.Except (mustHaveContents).Except (mayHaveContents);
+
+				Assert.That (missing, Is.Empty, "No missing files");
 				Assert.That (extra, Is.Empty, "No extra files");
 			}
 		}
