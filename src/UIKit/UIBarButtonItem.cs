@@ -42,7 +42,6 @@ namespace UIKit {
 			Clicked += handler;
 		}
 
-
 		/// <param name="title">String value used to display the title of the button.</param>
 		/// <param name="style">A style value defined in <see cref="UIKit.UIBarButtonItemStyle" />.</param>
 		/// <param name="handler">The event handler to be called when the button is pressed.</param>
@@ -53,7 +52,6 @@ namespace UIKit {
 		{
 			Clicked += handler;
 		}
-
 
 		/// <param name="systemItem">The <see cref="UIKit.UIBarButtonSystemItem" /> used to create the button.</param>
 		/// <param name="handler">The event handler to be called when the button is pressed.</param>

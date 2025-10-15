@@ -19,7 +19,9 @@ namespace MonoTouchFixtures.ObjCRuntime {
 			TestRuntime.AssertMatchingOSVersionAndSdkVersion ();
 
 			Assert.Multiple (() => {
+#pragma warning disable IL2026 // we only care about types that survived trimming, so this is safe.
 				var allTypes = typeof (NSObject).Assembly.GetTypes ();
+#pragma warning restore IL2026
 				var types = allTypes.ToDictionary (v => v.FullName, v => v);
 				var valuesToSkip = GetSkippedEnumValues ().ToHashSet ();
 				var skippedValues = new List<object> ();
