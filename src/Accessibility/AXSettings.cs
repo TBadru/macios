@@ -40,7 +40,7 @@ namespace Accessibility {
 		DwellControl,
 	}
 
-	public static class AXSettings {
+	public static partial class AXSettings {
 		[SupportedOSPlatform ("ios18.0")]
 		[SupportedOSPlatform ("maccatalyst18.0")]
 		[SupportedOSPlatform ("macos15.0")]
@@ -89,6 +89,22 @@ namespace Accessibility {
 				var errorObject = Runtime.GetNSObject<NSError> (error);
 				del (errorObject);
 			}
+		}
+
+		[SupportedOSPlatform ("ios26.1")]
+		[SupportedOSPlatform ("maccatalyst26.1")]
+		[SupportedOSPlatform ("macos26.1")]
+		[SupportedOSPlatform ("tvos26.1")]
+		[DllImport (Constants.AccessibilityLibrary)]
+		static extern byte AXShowBordersEnabled ();
+
+		[SupportedOSPlatform ("ios26.1")]
+		[SupportedOSPlatform ("maccatalyst26.1")]
+		[SupportedOSPlatform ("macos26.1")]
+		[SupportedOSPlatform ("tvos26.1")]
+		public static bool ShowBordersEnabled ()
+		{
+			return AXShowBordersEnabled () != 0;
 		}
 	}
 }
