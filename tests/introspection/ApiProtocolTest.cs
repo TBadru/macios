@@ -1016,6 +1016,10 @@ namespace Introspection {
 							case "ARPointCloud":
 							case "ARReferenceObject":
 							case "ARWorldMap":
+							case "ARPlaneGeometry":
+							case "ARGeometryElement":
+							case "ARGeometrySource":
+							case "ARMeshGeometry":
 								return;
 							}
 						}
