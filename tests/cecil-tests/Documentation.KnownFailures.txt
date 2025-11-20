@@ -1244,6 +1244,7 @@ F:AVFoundation.AVAudioRoutingArbitrationCategory.PlayAndRecord
 F:AVFoundation.AVAudioRoutingArbitrationCategory.PlayAndRecordVoice
 F:AVFoundation.AVAudioRoutingArbitrationCategory.Playback
 F:AVFoundation.AVAudioSessionCategoryOptions.BluetoothHighQualityRecording
+F:AVFoundation.AVAudioSessionCategoryOptions.FarFieldInput
 F:AVFoundation.AVAudioSessionCategoryOptions.OverrideMutedMicrophoneInterruption
 F:AVFoundation.AVAudioSessionErrorCode.ExpiredSession
 F:AVFoundation.AVAudioSessionErrorCode.SessionNotActive
@@ -1254,6 +1255,7 @@ F:AVFoundation.AVAudioSessionInterruptionReason.RouteDisconnected
 F:AVFoundation.AVAudioSessionMicrophoneInjectionMode.None
 F:AVFoundation.AVAudioSessionMicrophoneInjectionMode.SpokenAudio
 F:AVFoundation.AVAudioSessionMode.Default
+F:AVFoundation.AVAudioSessionMode.DualRoute
 F:AVFoundation.AVAudioSessionMode.GameChat
 F:AVFoundation.AVAudioSessionMode.Measurement
 F:AVFoundation.AVAudioSessionMode.MoviePlayback
@@ -19061,6 +19063,8 @@ P:AVFoundation.AVCaptureDevice.CenterStageActive
 P:AVFoundation.AVCaptureDevice.CenterStageEnabled
 P:AVFoundation.AVCaptureDevice.CinematicVideoCaptureSceneMonitoringStatuses
 P:AVFoundation.AVCaptureDevice.ContinuityCamera
+P:AVFoundation.AVCaptureDevice.EdgeLightActive
+P:AVFoundation.AVCaptureDevice.EdgeLightEnabled
 P:AVFoundation.AVCaptureDevice.ExposureRectOfInterestSupported
 P:AVFoundation.AVCaptureDevice.FaceDrivenAutoExposureEnabled
 P:AVFoundation.AVCaptureDevice.FaceDrivenAutoFocusEnabled
@@ -19080,6 +19084,7 @@ P:AVFoundation.AVCaptureDeviceFormat.BackgroundReplacementSupported
 P:AVFoundation.AVCaptureDeviceFormat.CameraLensSmudgeDetectionSupported
 P:AVFoundation.AVCaptureDeviceFormat.CenterStageSupported
 P:AVFoundation.AVCaptureDeviceFormat.CinematicVideoCaptureSupported
+P:AVFoundation.AVCaptureDeviceFormat.EdgeLightSupported
 P:AVFoundation.AVCaptureDeviceFormat.GlobalToneMappingSupported
 P:AVFoundation.AVCaptureDeviceFormat.HighestPhotoQualitySupported
 P:AVFoundation.AVCaptureDeviceFormat.HighPhotoQualitySupported
