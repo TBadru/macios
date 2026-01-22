@@ -78,7 +78,7 @@ namespace Xamarin.MacDev.Tasks {
 				var args = GenerateCommandLineCommands (inputScene, outputScene);
 				listOfArguments.Add (new (args, asset));
 
-				Directory.CreateDirectory (Path.GetDirectoryName (outputScene));
+				Directory.CreateDirectory (Path.GetDirectoryName (outputScene)!);
 
 				var bundleResource = new TaskItem (outputScene);
 				asset.CopyMetadataTo (bundleResource);

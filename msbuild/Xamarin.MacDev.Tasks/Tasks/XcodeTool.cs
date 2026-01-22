@@ -129,7 +129,7 @@ namespace Xamarin.MacDev.Tasks {
 				output.SetMetadata ("LogicalName", relative);
 
 				if (NeedsBuilding (input, output)) {
-					Directory.CreateDirectory (Path.GetDirectoryName (output.ItemSpec));
+					Directory.CreateDirectory (Path.GetDirectoryName (output.ItemSpec)!);
 
 					if (ExecuteTool (input, output) == -1)
 						return false;
