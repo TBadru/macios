@@ -30,11 +30,6 @@ namespace Xamarin.MacDev.Tasks {
 		[Required]
 		public string ResourcePrefix { get; set; } = "";
 
-		string sdkDevPath = "";
-		public string SdkDevPath {
-			get { return string.IsNullOrEmpty (sdkDevPath) ? "/" : sdkDevPath; }
-			set { sdkDevPath = value; }
-		}
 		#endregion
 
 		#region Outputs
@@ -60,7 +55,7 @@ namespace Xamarin.MacDev.Tasks {
 			args.Add (partialPlist);
 
 			var executable = GetExecutable (args, ToolName, CoreMlcPath);
-			var rv = ExecuteAsync (executable, args, sdkDevPath).Result;
+			var rv = ExecuteAsync (executable, args, GetSdkDevPath ()).Result;
 			var exitCode = rv.ExitCode;
 			var output = rv.Output.StandardOutput;
 			File.WriteAllText (log, output);
